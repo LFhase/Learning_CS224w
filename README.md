@@ -9,7 +9,7 @@ The main learning materials are:
 - [online available book](http://www.cs.cornell.edu/home/kleinber/networks-book/)
 - [snap lab class notes](https://snap-stanford.github.io/cs224w-notes/)
 
-***Great Thanks** for those kind and cool people!*
+***Great Thanks** for those kind and cool people!* <br>
 You can open a new issue or send me an email if you find any mistakes.
 
 ### Accomplishment 
