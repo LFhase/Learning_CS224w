@@ -20,6 +20,7 @@ You can open a new issue or send me an email if you find any mistakes.
 VS Code <br>
 Python 3.7.3 <br>
 PyTorch <br>
-[Tex Live 2018](http://www.tug.org/texlive/windows.html)
+[SNAP-Stanford](http://snap.stanford.edu/snappy/) <br>
+[Tex Live 2018](http://www.tug.org/texlive/windows.html) 
 
 *Personally, I am a huge fans of Professor Jure Leskovec:)*
