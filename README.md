@@ -2,9 +2,9 @@
 My approach to CS224w [AT] Stanford 2019fall -- Machine Learning with Graphs. 💡
 
 ### Introduction 
-The repo records my solutions to all assignments and projects of CS224w [AT] Stanford 2019fall. <br>
+This repo records my solutions to all assignments and projects of CS224w [AT] Stanford 2019fall. <br>
 
-The main learning materials are:
+The main referred materials are:
 - [course web page](http://web.stanford.edu/class/cs224w/index.html#content)
 - [online available book](http://www.cs.cornell.edu/home/kleinber/networks-book/)
 - [snap lab class notes](https://snap-stanford.github.io/cs224w-notes/)
