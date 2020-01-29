@@ -9,7 +9,7 @@ The main learning materials are:
 - [online available book](http://www.cs.cornell.edu/home/kleinber/networks-book/)
 - [snap lab class notes](https://snap-stanford.github.io/cs224w-notes/)
 
-***Great Thanks** for those kind and cool people!* <br>
+***Great Thanks** to those kind and cool people!* <br>
 You can open a new issue or send me an email if you find any mistakes.
 
 ### Accomplishment 
@@ -25,5 +25,3 @@ Python 3.7.3 <br>
 PyTorch <br>
 [SNAP-Stanford](http://snap.stanford.edu/snappy/) <br>
 [Tex Live 2018](http://www.tug.org/texlive/windows.html) 
-
-*Personally, I am a huge fans of Professor Jure Leskovec:)*
