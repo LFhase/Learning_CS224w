@@ -74,5 +74,40 @@ def q2():
     plt.show()
     print("regression: ",reg)
 
-#def q3():
-G = snap.LoadEdgeList(snap.PNGraph, "wiki-Vote.txt", 0, 1)
+def q3():
+    G = snap.LoadEdgeList(snap.PNGraph, "stackoverflow-Java.txt", 0, 1)
+
+    components = snap.TCnComV()
+    snap.GetWccs(G,components)
+    print("Number of WCC: ",components.Len())
+
+    MxComp = snap.GetMxWcc(G)
+    cnt_mxc_node = 0
+    cnt_mxc_edge = 0
+    for _ in MxComp.Nodes():
+        cnt_mxc_node += 1
+    for _ in MxComp.Edges():
+        cnt_mxc_edge += 1
+    print("Number of edges and nodes in MxWCC: ",cnt_mxc_node,' ',cnt_mxc_edge)
+
+    PRankH = snap.TIntFltH()
+    snap.GetPageRank(G, PRankH)
+    scores = []
+    for id in PRankH:
+        scores.append((PRankH[id],id))
+    res = sorted(scores,reverse=True)[:3]
+    print("IDs of top 3 PageRank scores: ",res)
+
+    NIdHubH = snap.TIntFltH()
+    NIdAuthH  = snap.TIntFltH()
+    snap.GetHits(G, NIdHubH, NIdAuthH)
+    scores = []
+    for id in NIdHubH:
+        scores.append((NIdHubH[id],id))
+    res = sorted(scores,reverse=True)[:3]
+    print("IDs of top 3 hubs by HITS scores: ",res)
+    scores = []
+    for id in NIdAuthH:
+        scores.append((NIdAuthH[id],id))
+    res = sorted(scores,reverse=True)[:3]
+    print("IDs of top 3 authorities by HITS scores: ",res)

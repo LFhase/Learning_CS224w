@@ -91,7 +91,6 @@ INPUT f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.out
 INPUT f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.out
 OUTPUT f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.out
 OUTPUT f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.pdf
-INPUT e:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
@@ -113,6 +112,7 @@ INPUT e:/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT e:/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT e:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT f:\Desktop\Learning_CS224w\Homework\HW0\report/pic/deg_distribution.png
 INPUT f:/Desktop/Learning_CS224w/Homework/HW0/report/pic/deg_distribution.png
 INPUT f:/Desktop/Learning_CS224w/Homework/HW0/report/pic/deg_distribution.png

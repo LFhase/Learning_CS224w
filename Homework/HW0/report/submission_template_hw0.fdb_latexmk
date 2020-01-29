@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1580285917 "f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.tex" "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.pdf" "submission_template_hw0" 1580285919
+["pdflatex"] 1580287629 "f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.tex" "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.pdf" "submission_template_hw0" 1580287632
   "e:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1546784809 3332 103109f5612ad95229751940c61aada0 ""
   "e:/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1546781523 1004 54797486969f23fa377b128694d548df ""
   "e:/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1546781523 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -75,16 +75,16 @@
   "e:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1546790598 3173767 7100bf788d9615b497d8659339322484 ""
   "e:/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt" 1546790760 4223236 f561f954ddab34a29fc242f6e5afb338 ""
   "e:/texlive/2018/texmf.cnf" 1546790491 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.tex" 1580285916 4954 5358be4da5d5ef41ef26c1d5949e3d6d ""
-  "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.aux" 1580285919 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "f:/Desktop/Learning_CS224w/Homework/HW0/report/submission_template_hw0.tex" 1580287628 5376 b70fc8248f811ce8de83a30631972f69 ""
+  "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.aux" 1580287631 662 b2b94621371df8d9296b8bf5bec1b851 ""
   "pic/deg_distribution.png" 1580285639 37375 a0e375a3f161e962761bcd8aca22b65c ""
-  "submission_template_hw0.aux" 1580285919 662 b2b94621371df8d9296b8bf5bec1b851 ""
-  "submission_template_hw0.out" 1580285918 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "submission_template_hw0.tex" 1580285916 4954 5358be4da5d5ef41ef26c1d5949e3d6d ""
+  "submission_template_hw0.aux" 1580287631 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "submission_template_hw0.out" 1580287631 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "submission_template_hw0.tex" 1580287628 5376 b70fc8248f811ce8de83a30631972f69 ""
   (generated)
-  "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.pdf"
   "submission_template_hw0.pdf"
+  "submission_template_hw0.aux"
+  "submission_template_hw0.out"
   "submission_template_hw0.log"
   "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.log"
-  "submission_template_hw0.out"
-  "submission_template_hw0.aux"
+  "f:\Desktop\Learning_CS224w\Homework\HW0\report/submission_template_hw0.pdf"

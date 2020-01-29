@@ -13,8 +13,10 @@ The main learning materials are:
 You can open a new issue or send me an email if you find any mistakes.
 
 ### Accomplishment 
-- TBD😄
-
+- [Done] HW0 😄
+    - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
+    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
+- [Ongoing] HW1 
 
 ### Tools 🔨
 VS Code <br>
