@@ -14,6 +14,7 @@ You can open a new issue or send me an email if you find any mistakes.
 
 ### Accomplishment 
 - [Done] HW0 😄
+    - problem set: [hw0.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/hw0.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
 - [Ongoing] HW1 
