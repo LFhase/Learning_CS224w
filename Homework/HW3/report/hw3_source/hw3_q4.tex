@@ -1,0 +1,54 @@
+% !TEX root = hw3.tex
+
+\section{Influence Maximization [25 points]}
+
+In class we discussed the influence maximization problem and the greedy hill-climbing approach to solving it. In the algorithm, we add nodes to the current seed set one at a time. At step 0, we have an empty set $S_0$. At step $i > 0$, we pick the node which maximizes the marginal gain: $S_i = S_{i-1} \cup \left\{ \arg \max_u f(S_{i-1} \cup \{u\})-f(S_{i-1})\right\}$, where $f(S)$ denotes the number of nodes influenced by the initially active set $S$ (includes the set $S$ itself).
+
+As we showed in  class the hill climbing algorithm cannot guarantee an optimal solution. In other words, there might exist a set $T$ with $|T| = i$ such that $f(S_i) < f(T)$. It is also known that the greedy algorithm is a $(1-(1-\frac{1}{k})^k)$ - approximation for the influence maximization problem (its sub-optimality is bounded). In other words, for every $k \geq 1$, the greedy hill-climbing algorithm outputs a set $S_k$ such that $f(S_k) \geq (1-(1-\frac{1}{k})^k) f(T)$ where T is the optimal set for influence maximization.  
+
+Parts 1 and 2 of this problem ask you to construct examples where the greedy hill climbing returns a sub-optimal solution. In part 2, you will explore examples close to the non-optimal bound for the greedy algorithm for $k=3$. Your answer should consist of: (1) For every node $u$ its influence set $X_u$ (you can describe the set or draw a directed graph where an edge from $A$ to $B$ indicates that node $A$ influences node $B$ with probability $1$),
+(2) $S_i$, the set of nodes that a greedy hill climbing would choose after $i$ iterations, and (3) $T$, the optimal set of $i$ nodes.
+
+
+
+For all the questions, you can assume: (1) The nodes in $S$ are influencing themselves, i.e., the count of total influence $f(S)$ includes the nodes in $S$. (2) The influence set $X_{u}$ contains all nodes that are influenced by node $u$, both directly and eventually. (3) When several nodes have the same level of marginal gain, we choose one of them at random.\\
+
+\subsection{Non-Optimal Hill-Climbing [8 points]} For $k = 2$, construct an example where $f(S_k) < f(T)$. That is, hill-climbing will only find a non-optimal solution. (Hint: the last step of the greedy approach is optimal given the $k-1$ previous steps.)\\
+
+\subsection{Bounded Non-Optimal Hill-Climbing [8 points]} 
+
+
+For $k= 3$, construct an example where  $f(S_k) \leq 0.8 f(T)$. That is, hill-climbing will only find a solution that is at most 80\% of the optimal solution.\\
+( Note: 0.8 is very close to the true lower bound for $f(S_k)$ when $k=3$ which is approximately 0.70 )
+
+\subsection{Optimality of Hill-Climbing [4 points]} Give a property of influence sets $X_u$ such that $f(S_i) = f(T)$.  In other words, what is a \emph{sufficient} property of influence sets of nodes such that greedy hill-climbing always outputs a set which achieves the maximum possible influence for a set of $i$ nodes? If your condition holds, the algorithm should produce an optimal output for any choice of $i$ between 1 and the number of nodes in the graph. The property does not need to be a necessary one. It must be a property of $X_u$. Properties such as ``the network has only $i$ nodes'' are not valid as correct answers.
+
+There are several correct answers; we will accept all reasonable answers.\\
+
+\subsection{More Hill-Climbing... [5 points]}
+
+Assume that we stop hill-climbing after $k$ steps and $|S_k| = |T| = k$. Recall that in the class we proved a bound in the form of
+\begin{equation}
+f(T) \leq f(S_k) + \sum_{i=1}^k \delta_i,
+\end{equation}
+where $ \delta_1, .., \delta_k $ are the largest $k$ values of $f(S_k \cup \{u\}) - f(S_k)$ for any node $u$ in the graph. Construct a family of examples for which $f(S_k) + \sum_{i=1}^k \delta_i - f(T)$ can be arbitrarily large.
+
+To be more specific, given any number $b$ you should exhibit a network (graph) such that $f(S_k) + \sum_{i=1}^k \delta_i - f(T)>b$.
+
+Note: A {\em family} of examples is a set $F$ of examples such that for any number $b$, there exists a network (graph) $E(b) \in F$ (corresponding to $b$) such that $f(S_k) + \sum_{i=1}^k \delta_i - f(T)>b$.
+
+\subsection*{What to submit}
+\begin{enumerate}[{Page} 1:]
+\setcounter{enumi}{12}
+\item
+\begin{itemize} \item Submit an example: $X_u$, $S$, $T$. \end{itemize}
+
+\item 
+\begin{itemize} \item  Submit an example: $X_u$, $S$, $T$. \end{itemize}
+
+\item 
+\begin{itemize} \item Submit a property and a brief explanation. \end{itemize}
+
+\item
+\begin{itemize} \item  Submit a family of examples and a brief explanation. \end{itemize}
+\end{enumerate}

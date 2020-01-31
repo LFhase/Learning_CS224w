@@ -1,0 +1,89 @@
+% !TEX root = hw1.tex
+
+\section{Link Analysis [25 points]}
+
+\subsection{Personalized PageRank I [12 points]}
+Personalizing PageRank is a very important real-world problem: different users
+find different pages relevant, so search engines can provide better results if
+they tailor their page relevance estimates to the users they are serving. Recall
+from class that PageRank can be specialized with clever modifications of the
+teleport vector. In this question, we will explore how this can be applied to
+personalize the PageRank algorithm.
+
+Assume that people's interests are represented by a set of representative
+pages. For example, if Zuzanna is interested in sports and food, then we could
+represent her interests with the set of pages $\{$\texttt{www.espn.com},
+\texttt{www.epicurious.com}$\}$. For notational convenience, we will use
+integers as names for webpages.
+
+Suppose you have already computed the personalized PageRank vectors for the following users:
+\vspace{-0.25cm}
+\begin{itemize}\setlength\itemsep{0pt}
+\item Agatha, whose interests are represented by the teleport set $\{1,2,3\}$
+\item Bertha, whose interests are represented by the teleport set $\{3,4,5\}$
+\item Clementine, whose interests are represented by the teleport set $\{1,4,5\}$
+\item Dolo, whose interests are represented by the teleport set $\{1\}$
+\end{itemize}
+
+Assume that the weights for each node in a teleport set are uniform.  Without
+looking at the graph, can you compute the personalized PageRank vectors for the
+following users? If so, how? If not, why not? Assume a fixed teleport parameter
+$\beta$.
+
+\vspace{-0.25cm}
+\begin{enumerate}[i.]
+\item \textbf{[4 points]} Eloise, whose interests are represented by the teleport set $\{2\}$.
+
+\item \textbf{[4 points]} Felicity, whose interests are represented by the teleport set $\{5\}$.
+
+\item \textbf{[4 points]} Glynnis, whose interests are represented by the teleport set $\{1,2,3,4,5\}$ with weights 0.1, 0.2, 0.3, 0.2, 0.2, respectively.
+\end{enumerate}
+
+\subsection{Personalized PageRank II [5 points]}
+
+Suppose that you've already computed the personalized PageRank vectors of a set
+of users (denote the computed vectors $V$). What is the set of all personalized
+PageRank vectors that you can compute from $V$ without accessing the web graph?
+
+\subsection{A different equation for PageRank [8 points]}
+In class you that the PageRank equation can be written in different ways. You will prove this in this question.
+Recall that the PageRank equation is:
+\begin{align}
+\label{equation:PageRank}
+    \mathbf{r} = \mathbf{A} \mathbf{r},
+\end{align}
+where $\mathbf{r} \in \mathbb{R}^N$ is the PageRank vector, i.e. the vector of PageRank scores for each of the $N$ nodes, and (where $\mathbf{1}$ is the all-ones column vector of length $N$):
+\begin{align}
+    \mathbf{A} = \beta \mathbf{M} + \frac{1-\beta}{N}\mathbf{1}\mathbf{1}^\top.
+\end{align}
+Recall that here, $\mathbf{M}$ is the stochastic adjacency matrix, defined as
+\begin{align}
+    \mathbf{M}_{ij} = \left\{\begin{array}{lr}
+        \frac{1}{d_j} , & \text{if (j,i) is an edge}\\
+        0               & \text{otherwise}
+        \end{array}\right\}
+\end{align}
+where $d_j$ is the degree of node $j$. Assume every node has degree at least 1.
+
+Prove that (\ref{equation:PageRank}) is equivalent to
+\begin{align}
+    \mathbf{r} = \beta\mathbf{M} \mathbf{r}  + \frac{1-\beta}{N}\mathbf{1}.
+\end{align}
+
+Hint: Recall that $\mathbf{r}$ is normalized, i.e. $\sum_{i=1}^N \mathbf{r}_i = 1$.
+
+\subsection*{What to submit}
+\begin{enumerate}[2.1:]
+\setcounter{enumi}{0}
+\item
+  \begin{itemize} \item  For each of $(i)$,$(ii)$, and $(iii)$, `yes' or `no' and a brief explanation of why or why not. \end{itemize}
+  
+\item
+  \begin{itemize} \item A mathematical expression for the set in terms of $V$ and a brief explanation. \end{itemize}
+  
+\item
+  \begin{itemize} 
+  \item Proof that the two PageRank equations are equivalent.
+  \end{itemize}
+
+\end{enumerate}

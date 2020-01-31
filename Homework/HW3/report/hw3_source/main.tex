@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{url}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+
+\newcommand*\Bell{\ensuremath{\boldsymbol\ell}}
+
+
+\oddsidemargin  0in \evensidemargin 0in \topmargin -0.5in
+\headheight 0.25in \headsep 0.25in
+\textwidth   6.5in \textheight 9in
+\parskip 1.5ex  \parindent 0ex \footskip 20pt
+
+\newcommand{\note}[1]{\textsf{{\textcolor{red}{[[#1]]}}}}
+\newcommand{\boxcomment}[1]{\noindent\fbox{\parbox{\textwidth}{#1}}\medskip\\}
+
+\newcommand{\xhdr}[1]{\paragraph{\bf{#1}}}
+\newcommand{\subquestion}[1]{\subsubsection*{{#1}}}
+
+\newcommand{\mysmall}{\textnormal{small}}
+\newcommand{\dataset}[1]{{\tt #1}}
+
+
+%%---------------------------------------------------------------------------
+%%      Theorems and other environments:
+%%---------------------------------------------------------------------------
+\newtheorem{thm}{Theorem}%[lecture]
+\newtheorem{prop}{Proposition}%[lecture]
+\newtheorem{lemma}{Lemma}%[lecture]
+\newtheorem{result}{Result}%[lecture]
+\newtheorem{cor}{Corollary}%[lecture]
+\newtheorem{claim}{Claim}%[lecture]
+\newenvironment{proof}{{\bf Proof: }}{\hfill\rule{2mm}{2mm}}
+\newcounter{example}
+\newenvironment{example}[1][]
+ {\refstepcounter{example}{\bf Example~\arabic{example}~#1}}{}
+ \renewcommand{\theexample}{\arabic{example}}
+\newcounter{problem}
+\newenvironment{problem}[1][]
+ {\refstepcounter{problem}{\bf Problem~\arabic{lecture}.\arabic{problem}~#1}}{}
+ \renewcommand{\theproblem}{\arabic{lecture}.\arabic{problem}}
+
+\newcounter{definition}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+%%%----------------------------------------------------------------------------- 
+
+%%%-----------------------------------------------------------------------------
+%%% Header
+\newfont{\bssten}{cmssbx10}
+\newfont{\bssnine}{cmssbx10 scaled 900}
+\newfont{\bssdoz}{cmssbx10 scaled 1200}
+\pagestyle{fancy}  % use this?
+ \fancyhead{\bssnine CS224W: Machine Learning with Graphs - Homework 3}
+ \fancyhead[RE]{} \fancyhead[LO]{}
+ \fancyhead[LE]{\bssnine \arabic{page}} \fancyhead[RO]{\bssnine \arabic{page}}
+ \lfoot{} \cfoot{} \rfoot{}
+%%%-----------------------------------------------------------------------------
+%
+\begin{document}
+\thispagestyle{empty}
+\boxcomment{
+{\bf \textsf{CS224W: Machine Learning with Graphs \hfill Fall 2019}}\medskip
+
+\centerline{\LARGE \bf \textsf{ Homework 3}}\medskip
+
+{\sl \hfill  \textsf{Due 11:59pm PT Thursday November 14 2019\\
+This problem set should be completed individually.} \hfill}
+}\bigskip
+
+\centerline{\LARGE \bf General Instructions}
+
+These questions require thought, but do not require long answers. Please be as
+concise as possible. You are allowed to take a maximum of 1 late period (see the
+information sheet at the end of this document for the definition of a late
+period).
+
+{\bf Submission instructions:} You should submit your answers and code via Gradescope. There will be a separate submission assignment for written and code.
+
+{\em Submitting answers:} Prepare answers to your homework in a single PDF file and submit it via Gradescope to the HW3 (Written) assignment. Make sure that the answer to each sub-question is on a {\em separate, single page}. The number of the question should be at the top of each page.
+Please use the submission template files included in the bundle to prepare your submission. Failure to use the submission template file will result in a reduction of $2$ points from your homework score.
+
+{\em Information sheet:} Fill out the information sheet located at the end of the submission template file, and sign it in order to acknowledge the Honor Code (if typesetting the homework, you may type your name instead of signing).  This should be the last page of your submission. Failure to fill out the information sheet will result in a reduction of $2$ points from your homework score.
+
+
+\smallskip
+
+{\em Submitting code:} Upload a zipfile containing all your on Gradescope to the HW3 (Code) assignment. Failure to submit your code will result in reduction of all points for that question from your homework score.
+
+{\em Homework survey:} After submitting your homework, please fill out the \href{https://docs.google.com/forms/d/e/1FAIpQLSfmELJcjJ8c3p_hcxoBocVNt45GaGaPRUyyanvgCSGJG-yrjA/viewform?usp=pp_url}{Homework 3 Feedback Form}. Respondents will be awarded extra credit.
+
+\newpage
+
+\centerline{\LARGE \bf Questions}
+
+%%-----------------------------------------------------------------------------
+%%Questions
+
+% Q1
+\input{hw3_q1}
+\newpage
+
+% Q2
+\input{hw3_q2}
+\newpage
+
+% Q3
+\input{hw3_q3}
+\newpage
+
+% Q4
+\input{hw3_q4}
+
+\end{document}
