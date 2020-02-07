@@ -19,7 +19,9 @@ You can open a new issue or send me an email if you find any mistakes.
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
 - [Ongoing] HW1 
 
+
 ### Tools 🔨
+Welcome to check out `\vscode_settings` for my personally favourable settings of vscode <br> 
 VS Code <br>
 Python 3.7.3 <br>
 PyTorch <br>

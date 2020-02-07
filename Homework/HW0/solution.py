@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
+
 def q1():
     G = snap.LoadEdgeList(snap.PNGraph, "wiki-Vote.txt", 0, 1)
 
@@ -26,11 +27,11 @@ def q1():
                 cnt_self_edge += 1
             else:
                 cnt_directed_edge += 1
-                if (u.GetId(),v) not in uedge and (v,u.GetId()) not in uedge:
-                    uedge.add((u.GetId(),v))
+                if (u.GetId(), v) not in uedge and (v, u.GetId()) not in uedge:
+                    uedge.add((u.GetId(), v))
                     cnt_undirected_edge += 1
-                reciedge.add((u.GetId(),v))
-                if (v,u.GetId()) in reciedge:
+                reciedge.add((u.GetId(), v))
+                if (v, u.GetId()) in reciedge:
                     cnt_reciprocated_edge += 1
         if u.GetInDeg() == 0:
             cnt_zero_ind += 1
@@ -41,15 +42,16 @@ def q1():
         if u.GetOutDeg() > 10:
             cnt_ten_outd += 1
 
-    print("node ",cnt_node)
-    print("self edge ",cnt_self_edge)
-    print("directed edge ",cnt_directed_edge)
-    print("undirected edge ",cnt_undirected_edge)
-    print("reciprocated edge ",cnt_reciprocated_edge)
-    print("zero out node ",cnt_zero_outd)
-    print("zero in node ",cnt_zero_ind)
-    print("ten out node ",cnt_ten_outd)
-    print("ten in node ",cnt_ten_ind)
+    print("node ", cnt_node)
+    print("self edge ", cnt_self_edge)
+    print("directed edge ", cnt_directed_edge)
+    print("undirected edge ", cnt_undirected_edge)
+    print("reciprocated edge ", cnt_reciprocated_edge)
+    print("zero out node ", cnt_zero_outd)
+    print("zero in node ", cnt_zero_ind)
+    print("ten out node ", cnt_ten_outd)
+    print("ten in node ", cnt_ten_ind)
+
 
 def q2():
     G = snap.LoadEdgeList(snap.PNGraph, "wiki-Vote.txt", 0, 1)
@@ -57,29 +59,30 @@ def q2():
     stat = {}
     for node in G.Nodes():
         if node.GetOutDeg() != 0:
-            stat[node.GetOutDeg()] = stat.get(node.GetOutDeg(),0)+1
-    stat = collections.OrderedDict(sorted(stat.items(),key=lambda x: x[0]))
-    x, y = np.array(list(stat.keys()),dtype=np.float), np.array(list(stat.values()),dtype=np.float)
+            stat[node.GetOutDeg()] = stat.get(node.GetOutDeg(), 0) + 1
+    stat = collections.OrderedDict(sorted(stat.items(), key=lambda x: x[0]))
+    x, y = np.array(list(stat.keys()), dtype=np.float), np.array(list(stat.values()), dtype=np.float)
     x, y = np.log10(x), np.log10(y)
-    plt.bar(x,y)
-    plt.plot(x,y,'go',label='distribution')
+    plt.bar(x, y)
+    plt.plot(x, y, 'go', label='distribution')
     plt.xlabel('node out degree (log10 scale)')
     plt.ylabel('number of nodes (log10 scale)')
     plt.title('node out degree distribution')
 
-    reg = np.polyfit(x,y,deg=1)
-    ry = np.polyval(reg,x)
-    plt.plot(x,ry,'b^',label='regression')
+    reg = np.polyfit(x, y, deg=1)
+    ry = np.polyval(reg, x)
+    plt.plot(x, ry, 'b^', label='regression')
     plt.legend()
     plt.show()
-    print("regression: ",reg)
+    print("regression: ", reg)
+
 
 def q3():
     G = snap.LoadEdgeList(snap.PNGraph, "stackoverflow-Java.txt", 0, 1)
 
     components = snap.TCnComV()
-    snap.GetWccs(G,components)
-    print("Number of WCC: ",components.Len())
+    snap.GetWccs(G, components)
+    print("Number of WCC: ", components.Len())
 
     MxComp = snap.GetMxWcc(G)
     cnt_mxc_node = 0
@@ -88,26 +91,26 @@ def q3():
         cnt_mxc_node += 1
     for _ in MxComp.Edges():
         cnt_mxc_edge += 1
-    print("Number of edges and nodes in MxWCC: ",cnt_mxc_node,' ',cnt_mxc_edge)
+    print("Number of edges and nodes in MxWCC: ", cnt_mxc_node, ' ', cnt_mxc_edge)
 
     PRankH = snap.TIntFltH()
     snap.GetPageRank(G, PRankH)
     scores = []
     for id in PRankH:
-        scores.append((PRankH[id],id))
-    res = sorted(scores,reverse=True)[:3]
-    print("IDs of top 3 PageRank scores: ",res)
+        scores.append((PRankH[id], id))
+    res = sorted(scores, reverse=True)[:3]
+    print("IDs of top 3 PageRank scores: ", res)
 
     NIdHubH = snap.TIntFltH()
-    NIdAuthH  = snap.TIntFltH()
+    NIdAuthH = snap.TIntFltH()
     snap.GetHits(G, NIdHubH, NIdAuthH)
     scores = []
     for id in NIdHubH:
-        scores.append((NIdHubH[id],id))
-    res = sorted(scores,reverse=True)[:3]
-    print("IDs of top 3 hubs by HITS scores: ",res)
+        scores.append((NIdHubH[id], id))
+    res = sorted(scores, reverse=True)[:3]
+    print("IDs of top 3 hubs by HITS scores: ", res)
     scores = []
     for id in NIdAuthH:
-        scores.append((NIdAuthH[id],id))
-    res = sorted(scores,reverse=True)[:3]
-    print("IDs of top 3 authorities by HITS scores: ",res)
+        scores.append((NIdAuthH[id], id))
+    res = sorted(scores, reverse=True)[:3]
+    print("IDs of top 3 authorities by HITS scores: ", res)
