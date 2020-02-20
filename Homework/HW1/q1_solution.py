@@ -24,9 +24,20 @@ def genErdosRenyi(N=5242, E=14484):
     return: Erdos-Renyi graph with N nodes and E edges
     """
     ############################################################################
-    # TODO: Your code here!
-    Graph = None
-
+    Graph = snap.PUNGraph.New()
+    for i in range(N):
+        Graph.AddNode(i)
+    nums = np.arrange(N * (N - 1) / 2)
+    nums = np.random.permutation(nums)
+    ram = set()
+    for idx in nums:
+        u = idx // N
+        v = idx % N
+        if (u, v) not in ram and (v, u) not in ram:
+            ram.add((u, v))
+            Graph.AddEdge(u, v)
+        if len(ram) == E:
+            break
     ############################################################################
     return Graph
 
@@ -40,8 +51,12 @@ def genCircle(N=5242):
         circle and each node is connected to its two direct neighbors.
     """
     ############################################################################
-    # TODO: Your code here!
-    Graph = None
+    Graph = snap.PUNGraph.New()
+    for i in range(N):
+        Graph.AddNode(i)
+    for i in range(N):
+        Graph.AddEdge(i, (i + 1) % N)
+
     ############################################################################
     return Graph
 
@@ -56,8 +71,8 @@ def connectNbrOfNbr(Graph, N=5242):
         to the neighbors of its neighbors
     """
     ############################################################################
-    # TODO: Your code here!
-
+    for i in range(N):
+        Graph.AddEdge(i, (i + 1) % N)
     ############################################################################
     return Graph
 
@@ -72,7 +87,22 @@ def connectRandomNodes(Graph, M=4000):
         selected pairs of nodes not already connected.
     """
     ############################################################################
-    # TODO: Your code here!
+    N = 0
+    for node in Graph.Nodes():
+        N += 1
+    nums = np.arrange(N * (N - 1) / 2)
+    nums = np.random.permutation(nums)
+    ram = set()
+    for edge in Graph.Edges():
+        ram.add(edge.GetSrcNId(), edge.GetDstNId())
+    for idx in nums:
+        u = idx // N
+        v = idx % N
+        if (u, v) not in ram and (v, u) not in ram:
+            ram.add((u, v))
+            Graph.AddEdge(u, v)
+        if len(ram) == M:
+            break
 
     ############################################################################
     return Graph
@@ -135,13 +165,13 @@ def Q1_1():
     collabNet = loadCollabNet("ca-GrQc.txt")
 
     x_erdosRenyi, y_erdosRenyi = getDataPointsToPlot(erdosRenyi)
-    plt.loglog(x_erdosRenyi, y_erdosRenyi, color = 'y', label = 'Erdos Renyi Network')
+    plt.loglog(x_erdosRenyi, y_erdosRenyi, color='y', label='Erdos Renyi Network')
 
     x_smallWorld, y_smallWorld = getDataPointsToPlot(smallWorld)
-    plt.loglog(x_smallWorld, y_smallWorld, linestyle = 'dashed', color = 'r', label = 'Small World Network')
+    plt.loglog(x_smallWorld, y_smallWorld, linestyle='dashed', color='r', label='Small World Network')
 
     x_collabNet, y_collabNet = getDataPointsToPlot(collabNet)
-    plt.loglog(x_collabNet, y_collabNet, linestyle = 'dotted', color = 'b', label = 'Collaboration Network')
+    plt.loglog(x_collabNet, y_collabNet, linestyle='dotted', color='b', label='Collaboration Network')
 
     plt.xlabel('Node Degree (log)')
     plt.ylabel('Proportion of Nodes with a Given Degree (log)')
@@ -153,8 +183,8 @@ def Q1_1():
 # Execute code for Q1.1
 Q1_1()
 
-
 # Problem 1.2 - Clustering Coefficient
+
 
 def calcClusteringCoefficientSingleNode(Node, Graph):
     """
@@ -172,6 +202,7 @@ def calcClusteringCoefficientSingleNode(Node, Graph):
     ############################################################################
     return C
 
+
 def calcClusteringCoefficient(Graph):
     """
     :param - Graph: snap.PUNGraph object representing an undirected graph
@@ -186,6 +217,7 @@ def calcClusteringCoefficient(Graph):
 
     ############################################################################
     return C
+
 
 def Q1_2():
     """
