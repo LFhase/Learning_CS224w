@@ -18,7 +18,7 @@ You can open a new issue or send me an email if you find any mistakes.
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
 - [Ongoing] HW1 
-
+- Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than ***July, 2020***.
 
 ### Tools 🔨
 Welcome to check out `\vscode_settings` for my personally favourable settings of vscode <br> 
