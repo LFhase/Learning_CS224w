@@ -7,7 +7,7 @@ One of many my self-studied courses. You can also check out some of them via bel
 
 > *It's the open Internet and the great and kind minds that makes a glance at the beautiful knowledge world possible for us navigators.*
 
-***Thousand Thanks** to those kind and cool people!* <br>
+***Thousand Thanks** to those kind and cool people!*
 
 ## Introduction 
 This repo records my solutions to assignments and projects of CS224w [AT] Stanford 2019fall. <br>
