@@ -3,6 +3,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{titlesec}
@@ -77,24 +78,70 @@ The log-log degree distribution plot is shown as belows. We can see that
 
 The average clustering coefficient for each network:
 \begin{itemize}
-    \item Clustering Coefficient for Erdos Renyi Network: 0.000802
-    \item Clustering Coefficient for Small World Network: 0.149388
-    \item Clustering Coefficient for Collaboration Network: 0.264818
+    \item Clustering Coefficient for Erdos Renyi Network: 0.001236
+    \item Clustering Coefficient for Small World Network: 0.297775
+    \item Clustering Coefficient for Collaboration Network: 0.529636
 \end{itemize}
 We can see that Collaboration Network has the largest average clustering coefficient. \\\\
 Since in real life, authors are likely to establish collaboration with those who have collaborated with their collaborators, so the local structure of this subgraph tends to be dense, which results in a larger average clustering coefficient.
 
 % Question 2.1
 \newquestion{2.1}
+\begin{itemize}
+    \item  Feature vector of node 9 is:  $[6, 4, 7]$
+    \item Top 5 nodes at most similar to node 9 are:
+          (415, 0.9987327913808193) (286, 0.9970704162402443) (288, 0.9970704162402443) (16, 0.9950371902099892) (17, 0.9950371902099892)
+\end{itemize}
 
 % Question 2.2
 \newquestion{2.2}
+\begin{itemize}
+    \item Top 5 nodes at most similar to node 9 are:
+          (973, 0.9977857208153201) (415, 0.9967754809774014) (296, 0.9922005791814624) (189, 0.9908884045260696) (275, 0.9908884045260696)
+    \item There is only one common node which is 415.
+    \item Because features generated via aggregation also consider information about the neighbors and the neighbors of neighbors,
+          which are more expressive than basic features.
+\end{itemize}
+
 
 % Question 2.3a
 \newquestion{2.3a}
 
+Firstly, we draw the histograms as below:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{pics/cos_sim_distribution.png}
+\end{figure}
+From the picture we can observe 4 groups/roles.
+
+
+
 % Question 2.3b
 \newquestion{2.3b}
+Randomly select a point for each group and draw the subgraph of its 2nd neighbors as below:
+\begin{figure}[ht]
+    \begin{subfigure}{.4\textwidth}
+        \centering
+        % include first image
+        \includegraphics[width=0.8\linewidth]{pics/subgraph_1.png}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        % include second image
+        \includegraphics[width=.6\linewidth]{pics/subgraph_2.png}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        % include first image
+        \includegraphics[width=.5\linewidth]{pics/subgraph_3.png}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        % include second image
+        \includegraphics[width=.5\linewidth]{pics/subgraph_4.png}
+    \end{subfigure}
+\end{figure}
+
 
 % Question 3.1
 \newquestion{3.1}

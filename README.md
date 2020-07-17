@@ -24,7 +24,14 @@ You can open a new issue or send me an email if you find any mistakes.
     - problem set: [hw0.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/hw0.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
-- [Ongoing] HW1 
+- [Ongoing] HW1 ⛰️
+    - problem set: [hw1.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/hw1.pdf)
+    - code: 
+        - [q1_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q1_solution.py)
+        - [q2_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q2_solution.py)
+        - [q3_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q3_solution.py)
+        - [q4_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q4_solution.py)
+    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/solution.pdf)
 - **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than ***July, 2020***.
 
 ## Tools 🔨

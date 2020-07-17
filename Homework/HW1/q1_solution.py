@@ -221,7 +221,7 @@ def calcClusteringCoefficientSingleNode(Node, Graph):
         for j in range(i):
             cnt_nbr += neigbors[i].IsInNId(neigbors[j].GetId())
     if deg >= 2:
-        C = cnt_nbr / (deg * (deg - 1.0))
+        C = 2 * cnt_nbr / (deg * (deg - 1.0))
     ############################################################################
     return C
 
