@@ -7,9 +7,9 @@ One of many my self-studied courses. You can also check out some of them via bel
 
 > *It's the open Internet and the great and kind minds that makes a glance at the beautiful knowledge world possible for us navigators.*
 
-***Thousand Thanks** to those kind and cool people!* <br>
+***Thousand Thanks** to those kind and cool people!*
 
-### Introduction 
+## Introduction 
 This repo records my solutions to assignments and projects of CS224w [AT] Stanford 2019fall. <br>
 
 The main referred materials are:
@@ -19,7 +19,7 @@ The main referred materials are:
 
 You can open a new issue or send me an email if you find any mistakes.
 
-### Accomplishment 
+## Accomplishment 
 - [Done] HW0 😄
     - problem set: [hw0.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/hw0.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
@@ -27,7 +27,7 @@ You can open a new issue or send me an email if you find any mistakes.
 - [Ongoing] HW1 
 - **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than ***July, 2020***.
 
-### Tools 🔨
+## Tools 🔨
 Welcome to check out `\vscode_settings` for my personally favourable settings of vscode <br> 
 VS Code <br>
 Python 3.7.3 <br>
