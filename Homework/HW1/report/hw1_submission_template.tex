@@ -2,6 +2,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{titlesec}
@@ -59,8 +60,29 @@
 % Question 1.1
 \newquestion{1.1}
 
+The log-log degree distribution plot is shown as belows. We can see that
+\begin{itemize}
+    \item The Small World Network has the most narrow plot comparing to other two networks.
+    \item Erdos Renyi Network is more similar with Collaboration Network, which means from the degree distribution perspective, Erdos Renyi models the real networks better.
+    \item Compared to random graph networks, the degree distribution of Collaboration Network is more wider.
+    \item It has more long-tail nodes which has large degree and small degree.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{pics/deg_distribution.png}
+\end{figure}
+
 % Question 1.2
 \newquestion{1.2}
+
+The average clustering coefficient for each network:
+\begin{itemize}
+    \item Clustering Coefficient for Erdos Renyi Network: 0.000802
+    \item Clustering Coefficient for Small World Network: 0.149388
+    \item Clustering Coefficient for Collaboration Network: 0.264818
+\end{itemize}
+We can see that Collaboration Network has the largest average clustering coefficient. \\\\
+Since in real life, authors are likely to establish collaboration with those who have collaborated with their collaborators, so the local structure of this subgraph tends to be dense, which results in a larger average clustering coefficient.
 
 % Question 2.1
 \newquestion{2.1}
@@ -102,19 +124,19 @@
 \vfill
 
 {\Large
-\textbf{Your name:} \hrulefill  % Put your name here
-\\
-\\
-\textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
-\textbf{SUID:} \hrulefill  % Put your student ID here
-\\*[2ex] 
+    \textbf{Your name:} \hrulefill  % Put your name here
+    \\
+    \\
+    \textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
+    \textbf{SUID:} \hrulefill  % Put your student ID here
+    \\*[2ex]
 }
 Discussion Group: \hrulefill   % List your study group here
 \\
 \vfill\vfill
 I acknowledge and accept the Honor Code.\\*[3ex]
 \bigskip
-\textit{(Signed)} 
+\textit{(Signed)}
 \hrulefill   % Replace this line with your initials
 \vfill
 

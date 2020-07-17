@@ -27,15 +27,16 @@ def genErdosRenyi(N=5242, E=14484):
     Graph = snap.PUNGraph.New()
     for i in range(N):
         Graph.AddNode(i)
-    nums = np.arrange(N * (N - 1) / 2)
+    nums = np.arange(N * (N - 1) // 2)
     nums = np.random.permutation(nums)
     ram = set()
     for idx in nums:
-        u = idx // N
-        v = idx % N
-        if (u, v) not in ram and (v, u) not in ram:
+        u = int(idx // N)
+        v = int(idx % N)
+        if u != v and (u, v) not in ram and (v, u) not in ram:
             ram.add((u, v))
             Graph.AddEdge(u, v)
+
         if len(ram) == E:
             break
     ############################################################################
@@ -72,7 +73,7 @@ def connectNbrOfNbr(Graph, N=5242):
     """
     ############################################################################
     for i in range(N):
-        Graph.AddEdge(i, (i + 1) % N)
+        Graph.AddEdge(i, (i + 2) % N)
     ############################################################################
     return Graph
 
@@ -90,15 +91,17 @@ def connectRandomNodes(Graph, M=4000):
     N = 0
     for node in Graph.Nodes():
         N += 1
-    nums = np.arrange(N * (N - 1) / 2)
+    nums = np.arange(N * (N - 1) / 2)
     nums = np.random.permutation(nums)
     ram = set()
+
     for edge in Graph.Edges():
-        ram.add(edge.GetSrcNId(), edge.GetDstNId())
+        ram.add((edge.GetSrcNId(), edge.GetDstNId()))
+    M += len(ram)
     for idx in nums:
-        u = idx // N
-        v = idx % N
-        if (u, v) not in ram and (v, u) not in ram:
+        u = int(idx // N)
+        v = int(idx % N)
+        if u != v and (u, v) not in ram and (v, u) not in ram:
             ram.add((u, v))
             Graph.AddEdge(u, v)
         if len(ram) == M:
@@ -133,8 +136,10 @@ def loadCollabNet(path):
     """
     ############################################################################
     # TODO: Your code here!
-    Graph = None
-
+    Graph = snap.LoadEdgeList(snap.PUNGraph, path, 0, 1)
+    for EI in Graph.Edges():
+        if EI.GetSrcNId() == EI.GetDstNId():
+            Graph.DelEdge(EI.GetSrcNId(), EI.GetDstNId())
     ############################################################################
     return Graph
 
@@ -150,7 +155,13 @@ def getDataPointsToPlot(Graph):
     ############################################################################
     # TODO: Your code here!
     X, Y = [], []
-
+    max_deg = 0
+    for node in Graph.Nodes():
+        max_deg = max(max_deg, node.GetDeg() + 1)
+    X = list(range(max_deg))
+    Y = [0] * len(X)
+    for node in Graph.Nodes():
+        Y[node.GetDeg()] += 1
     ############################################################################
     return X, Y
 
@@ -161,8 +172,11 @@ def Q1_1():
     """
     global erdosRenyi, smallWorld, collabNet
     erdosRenyi = genErdosRenyi(5242, 14484)
+    print("ER Graph Generation Complete: ", erdosRenyi.GetNodes(), ", ", erdosRenyi.GetEdges())
     smallWorld = genSmallWorld(5242, 14484)
-    collabNet = loadCollabNet("ca-GrQc.txt")
+    print("Small World Graph Generation Complete: ", smallWorld.GetNodes(), ", ", smallWorld.GetEdges())
+    collabNet = loadCollabNet("CA-GrQc.txt")
+    print("CollabNet Load Complete: ", collabNet.GetNodes(), ", ", collabNet.GetEdges())
 
     x_erdosRenyi, y_erdosRenyi = getDataPointsToPlot(erdosRenyi)
     plt.loglog(x_erdosRenyi, y_erdosRenyi, color='y', label='Erdos Renyi Network')
@@ -198,7 +212,16 @@ def calcClusteringCoefficientSingleNode(Node, Graph):
     ############################################################################
     # TODO: Your code here!
     C = 0.0
-
+    neigbors = []
+    deg = Node.GetDeg()
+    for i in range(deg):
+        neigbors.append(Graph.GetNI(Node.GetNbrNId(i)))
+    cnt_nbr = 0
+    for i in range(deg):
+        for j in range(i):
+            cnt_nbr += neigbors[i].IsInNId(neigbors[j].GetId())
+    if deg >= 2:
+        C = cnt_nbr / (deg * (deg - 1.0))
     ############################################################################
     return C
 
@@ -214,7 +237,9 @@ def calcClusteringCoefficient(Graph):
     # TODO: Your code here! If you filled out calcClusteringCoefficientSingleNode,
     #       you'll probably want to call it in a loop here
     C = 0.0
-
+    for node in Graph.Nodes():
+        C += calcClusteringCoefficientSingleNode(node, Graph)
+    C /= Graph.GetNodes()
     ############################################################################
     return C
 
