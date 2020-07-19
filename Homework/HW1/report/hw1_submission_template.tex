@@ -145,25 +145,99 @@ Randomly select a point for each group and draw the subgraph of its 2nd neighbor
 
 % Question 3.1
 \newquestion{3.1}
+According to the formula of modularity, it's easy to get that, for all nodes in a community, e.g., C,
+the second part in the formula, i.e., $\frac{d_id_j}{2m}$, is the $(\frac{\Sigma_ik_i}{2m})^2$. \\
+So firstly, we can caculate the modularity of C and i before i joins in C.
+$$Q_{before} = \frac{\Sigma_{in}}{2m}-(\frac{\Sigma_{tot}}{2m})^2-(\frac{k_i}{2m})^2$$
+Then we can caculate the modularity after i joins in C.
+$$Q_{after} = \frac{(\Sigma_{in}+k_{i,in})}{2m}-(\frac{\Sigma_{tot}+k_{i}}{2m})^2$$
+Finally, we can get the modularity gain.
+\begin{equation*}
+    \begin{aligned}
+        \Delta Q & = Q_{after} - Q_{before}                                              \\
+                 & = [\frac{(\Sigma_{in}+k_{i,in})}{2m}-(\frac{\Sigma_{tot}+k_i}{2m})^2]
+        -[\frac{\Sigma_{in}}{2m}-(\frac{\Sigma_{tot}}{2m})^2-(\frac{k_i}{2m})^2]
+    \end{aligned}
+\end{equation*}
 
 % Question 3.2
 \newquestion{3.2}
+For Graph $H$,
+\begin{itemize}
+    \item 1
+    \item 6
+    \item $Q=4*[\frac{12}{56}-(\frac{14}{56})^2]=\frac{17}{28} \approx 0.607$
+\end{itemize}
+For Graph $J$,
+\begin{itemize}
+    \item 2
+    \item 13
+    \item $Q=2*[\frac{26}{56}-(\frac{28}{56})^2]=\frac{3}{7} \approx 0.429$
+\end{itemize}
+
 
 % Question 3.3
 \newquestion{3.3}
+For Graph $H_{big}$,
+\begin{itemize}
+    \item 1
+    \item 6
+    \item $Q=32*[\frac{12}{448}-(\frac{14}{448})^2]= \frac{185}{224} \approx 0.826$
+\end{itemize}
+For Graph $J_{big}$,
+\begin{itemize}
+    \item 2
+    \item 13
+    \item $Q=16*[\frac{26}{448}-(\frac{28}{448})^2]= \frac{97}{112} \approx 0.866$
+\end{itemize}
 
 % Question 3.3
 \newquestion{3.4}
+The definition of modularity focuses on the local structure of a cluster, which may lead to 'suboptimal'
+when we need to trade off the number of communities and the modularity of each community. This intuition is consistent with Fortunato and Barthelemy's work \textit{Resolution limit in community detection}.
+
 
 % Question 4.1
 \newquestion{4.1}
+\begin{enumerate}[(i)]
+    \item From the formula we can see that, for every edge from $j$ to $k$, will contribute $1$ to $L_{j,j}$ and $L_{k,k}$ and $-1$ to $L_{j,k}$ and $L_{k,j}$.
+          It follows the way to compute $L$, i.e., $L = D - A$.
+    \item $x^TLx = \Sigma_i\Sigma_jx_iL_{i,j}x_j$, so for each edge from $i$ to $j$, will conribute $x_i^2$ and $x_j^2$ and $-(x_i*x_j+x_j*x_i)$ to the final result,
+          i.e., $(x_i-x_j)^2$.
+    \item We can caculate $x^TLx$ in three parts. For $x_i and x_j$ in the same $S$, $x_i - x_j = 0$. So
+          $$x^TLx=\frac{\bar{S}}{S}+\frac{S}{\bar{S}}-2 = cut(S)\frac{(vol(\bar{S})+vol(S))^2}{2vol(\bar{S})vol(S)}=(vol(\bar{S})+vol(S))*NCUT(S)$$
+    \item $x^TLe=\Sigma_i \Sigma_j x_i L_{i,j} = \Sigma_i x_i\Sigma_j L_{i,j}=\Sigma_i x_i*0=0$
+    \item $x^TDx = \Sigma_i x_i^2*D_{i,i} = vol(S) + vol(\bar{S}) = 2m$
+\end{enumerate}
 
 % Question 4.2
 \newquestion{4.2}
+Firstly, let $z = D^{1/2}x$ and we can rewrite the optimization problem as
+\begin{equation*}
+    \begin{aligned}
+         & minimize_{z\in \mathbb{R}^n}\quad \frac{z^T\widetilde{L}z}{z^Tz} \\
+         & s.t.\quad z^TD^{1/2}e=0, z^Tz = 2m
+    \end{aligned}
+\end{equation*}
+As $\widetilde{L}$ is symmetric, so its eigenvectors are orthonormal and we can write $z$ in this form $$z=\Sigma_i w_i v_i$$
+where $w_i$s are weights and $v_i$s are $\widetilde{L}$'s eigenvectors.
+The optimization objective can also be written as $$\frac{\Sigma_i w_i^2\lambda_i}{2m}$$
+where $\lambda_i$s are $\widetilde{L}$'s eigenvalues.
+Besides, since $\widetilde{L}*D^{1/2}e = D^{-1/2}LD^{-1/2}*D^{1/2}e=0*e$, so $D^{-1/2}$ is the corresponding eigenvector of $\widetilde{L}$ with a eigenvalue $0$,
+which means $w_1$ has to be $0$ according to the subject $z^TD^{1/2}e=0$.
+So to minimize the objective, we need to put all weights in the second smallest eigenvalue and thus we have $z=(2m)^{1/2}v$ as the minizer,
+where $v$ is the corresponding eigenvector. Finally, we get $$x=(2m)^{1/2}D^{-1/2}v$$
 
 % Question 4.3
 \newquestion{4.3}
-
+\begin{equation*}
+    \begin{aligned}
+        Q(y) & = \frac{1}{2m}(-2cut(S)+vol(S)+vol(\widehat{S})-\frac{1}{2m}(vol(S)^2+vol(\widehat{S})^2))     \\
+             & = \frac{1}{2m}(-2cut(S)+2m-\frac{1}{2m}(vol(S)^2+vol(\widehat{S})^2))                          \\
+             & = \frac{1}{2m}(-2cut(S)-\frac{1}{2m}(vol(S)+vol(\widehat{S}))^2-vol(S)^2+vol(\widehat{S})^2))) \\
+             & = \frac{1}{2m}(-2cut(S)-\frac{1}{m}vol(S)vol(\widehat{S}))
+    \end{aligned}
+\end{equation*}
 
 % Information sheet
 % Fill out the information below (this should be the last page of your assignment)
