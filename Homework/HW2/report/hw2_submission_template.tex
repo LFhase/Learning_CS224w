@@ -2,6 +2,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{titlesec}
@@ -58,9 +60,67 @@
 
 % Question 1.1
 \newquestion{1.1}
+\begin{enumerate}[(i)]
+    \item $0.76$, $0.32$, $0.54$.
+    \item Finally, we have $(1: 0.86),(2: 0.71),(3: 1.00),(4: 0.29),(5: 1.00),(6: 0.52),(7: 0.14),(8: 0.00),(9: 0.38),(10: 0.00)$,
+          so nodes with indexes $[1,2,3,5,6]$ will belong to class "+" and nodes with indexes $[4,7,8,9,10]$ will belong to class "-".
+\end{enumerate}
 
 % Question 1.2
 \newquestion{1.2}
+\begin{enumerate}[(i)]
+    \item \begin{displaymath}
+              \begin{aligned}
+                  b_1(x_1) & = \frac{1}{Z} \phi_i(x_i) m_{21}(x_1)                                                                                                                   \\
+                           & = \frac{1}{Z} \phi_1(x_1) \Sigma_{x_2}\phi_2(x_2)\psi_{21}(x_2,x_1)m_{32}(x_2)m_{42}(x_2)                                                               \\
+                           & = \frac{1}{Z} \phi_1(x_1) \Sigma_{x_2}\phi_2(x_2)\psi_{21}(x_2,x_1)(\Sigma_{x_3}\phi_3(x_3)\psi_{32}(x_3,x_2)\Sigma_{x_4}\phi_4(x_4)\psi_{42}(x_4,x_2)) \\
+                           & = \frac{1}{Z} \Sigma_{x_2}\Sigma_{x_3}\Sigma_{x_4}\phi_1(x_1) \phi_2(x_2)\phi_3(x_3)\phi_4(x_4)\psi_{21}(x_2,x_1)\psi_{32}(x_3,x_2)\psi_{42}(x_4,x_2)   \\
+              \end{aligned}
+          \end{displaymath}
+    \item According to the properties of grapical model, we have
+          \begin{displaymath}
+              \begin{aligned}
+                  p(x_1|y_1,y_2,y_3,y_4) & = \frac{1}{Z} \Sigma_{x_2}\Sigma_{x_3}\Sigma_{x_4}p(x_1,x_2,x_3,x_4|y_1,y_2,y_3,y_4)                                                                 \\
+                                         & =\frac{1}{Z} \Sigma_{x_2}\Sigma_{x_3}\Sigma_{x_4}\phi_1(x_1) \phi_2(x_2)\phi_3(x_3)\phi_4(x_4)\psi_{21}(x_2,x_1)\psi_{32}(x_3,x_2)\psi_{42}(x_4,x_2) \\
+                                         & = b_1(x_1)
+              \end{aligned}
+          \end{displaymath}
+          BTW, if you are not familiar with grapical model, you can refer to the lecture \textit{Probabilistic Graphical Models} or \textit{Graphical Models and Belief Propagation} in MIT 6.869 Advances in Computer Vision.
+    \item  The results are as below, for which the caculation is done by hand with cmd assitance of Python,
+          \begin{displaymath}
+              b_1(x_1) = \frac{1}{Z} \left[\begin{matrix}
+                      1.42681 \\
+                      1.299
+                  \end{matrix}\right]
+          \end{displaymath}
+          \begin{displaymath}
+              b_2(x_2) = \frac{1}{Z} \left[\begin{matrix}
+                      2.4871 \\
+                      0.24681
+                  \end{matrix}\right]
+          \end{displaymath}
+          \begin{displaymath}
+              b_3(x_3) = \frac{1}{Z} \left[\begin{matrix}
+                      0.418 \\
+                      2.300881
+                  \end{matrix}\right]
+          \end{displaymath}
+          \begin{displaymath}
+              b_4(x_4) = \frac{1}{Z} \left[\begin{matrix}
+                      0.231781 \\
+                      2.4871
+                  \end{matrix}\right]
+          \end{displaymath}
+          \begin{displaymath}
+              b_5(x_5) = \frac{1}{Z} \left[\begin{matrix}
+                      1.12009 \\
+                      0.31009
+                  \end{matrix}\right]
+          \end{displaymath}
+          As we can see, $x_2,y_4$ is influenced by $y_2,y_4$ most respectively. $\psi_{12},\psi_{34}$ indicate that node 1 and node 2, and node 3 and node 4 tend to be the same slightly. And $\psi_{23},\psi_{35}$ indicate that node 2 and node 3, and node 3 and node 5 tend to be the opposite with high possibility. So the results are as expected.
+\end{enumerate}
+
+
 
 % Question 2.1
 \newquestion{2.1}
@@ -98,23 +158,23 @@
 
 % Information sheet
 % Fill out the information below (this should be the last page of your assignment)
-\addinformationsheet
+,k/98\'J>K.\addinformationsheet
 \vfill
 
 {\Large
-\textbf{Your name:} \hrulefill  % Put your name here
-\\
-\\
-\textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
-\textbf{SUID:} \hrulefill  % Put your student ID here
-\\*[2ex] 
+    \textbf{Your name:} \hrulefill  % Put your name here
+    \\
+    \\
+    \textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
+    \textbf{SUID:} \hrulefill  % Put your student ID here
+    \\*[2ex]
 }
 Discussion Group: \hrulefill   % List your study group here
 \\
 \vfill\vfill
 I acknowledge and accept the Honor Code.\\*[3ex]
 \bigskip
-\textit{(Signed)} 
+\textit{(Signed)}
 \hrulefill   % Replace this line with your initials
 \vfill
 
