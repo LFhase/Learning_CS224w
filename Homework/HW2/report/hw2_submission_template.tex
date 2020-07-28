@@ -45,7 +45,7 @@
 \newfont{\myfont}{cmssbx10 scaled 1000}
 \pagestyle{fancy}
 \fancyhead{}
-\fancyhead[L]{\myfont Question \problemnumber, Homework 1, CS224W}
+\fancyhead[L]{\myfont Question \problemnumber, Homework 2, CS224W}
 %\fancyhead[R]{\bssnine \myname}
 \newcommand{\newquestion}[1]{
 \clearpage % page break and flush floats
@@ -124,15 +124,74 @@
 
 % Question 2.1
 \newquestion{2.1}
+Take this graph as an example,
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/kg_q2.jpg}
+\end{figure}
+Let all of $\textbf{e}$ to be
+
+\begin{displaymath}
+    \left[\begin{matrix}
+            1.0 \\
+            0.0
+        \end{matrix}\right]
+\end{displaymath}
+and \textbf{$\ell$} to be
+
+\begin{displaymath}
+    \left[\begin{matrix}
+            0.0 \\
+            0.0
+        \end{matrix}\right]
+\end{displaymath}
+We would make the objective to be $0$, but obviously the embeddings make no sense.
 
 % Question 2.2
 \newquestion{2.2}
+Take this graph as an example,
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/kg_q2.jpg}
+\end{figure}
+Let all of $\textbf{e}$ to be
+
+\begin{displaymath}
+    \left[\begin{matrix}
+            1.0 \\
+            0.0
+        \end{matrix}\right]
+\end{displaymath}
+and \textbf{$\ell$} to be
+
+\begin{displaymath}
+    \left[\begin{matrix}
+            0.0 \\
+            0.0
+        \end{matrix}\right]
+\end{displaymath}
+We would make the objective to be $0$, but obviously the embeddings make no sense.
 
 % Question 2.3
 \newquestion{2.3}
+Take this graph as an example,
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/kg_q2.jpg}
+\end{figure}
+When we don't normalize the entity embeddings, the algorithm tends to trivially change the $||e||_2$ to optimize to the objective.
+In this example, in this case, one possible generation is that $||e||_2$ for \textit{China} and \textit{Beijing} tends to be very small and $||e||_2$ for \textit{USA} and \textit{Washington, DC} tends to be very large, or vice versa.
 
 % Question 2.4
 \newquestion{2.4}
+Take this graph as an example,
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/kg_q2.jpg}
+\end{figure}
+after we add a new node \textit{Earth} and the relation from \textbf{China} and \textit{USA}, $a_country_of$,
+it's impossible to find a proper embedding of $a_country_of$ and $Earth$ to meet with the conditions in a 2-d embedding space,
+since \textit{Beijing} $\leftarrow$ \textit{China} and \textit{Washington, DC} $\leftarrow$ $USA$ are two parallel lines (vectors) in the embedding space.
 
 % Question 3.1
 \newquestion{3.1}
