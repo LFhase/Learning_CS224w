@@ -34,7 +34,7 @@ You can open a new issue or send me an email if you find any mistakes.
     - problem set: [hw2.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw0.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/solution.py)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/solution.pdf)
-- **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than ***July, 2020***.
+- **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than <strike>***July, 2020***</strike> ***August, 2020***.
 
 ## Tools 🔨
 Welcome to check out `\vscode_settings` for my personally favourable settings of vscode <br> 
