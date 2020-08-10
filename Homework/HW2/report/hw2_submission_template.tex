@@ -195,15 +195,55 @@ since \textit{Beijing} $\leftarrow$ \textit{China} and \textit{Washington, DC} $
 
 % Question 3.1
 \newquestion{3.1}
+\begin{enumerate}[(i)]
+    \item Three layers, because these 2 red nodes have the same 2-hop neighbor structure.
+    \item As the example in the below which shows the trickiest case,
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.50\textwidth]{pics/graph_q3.jpg}
+          \end{figure}
+          node $a$ which is expected to classify as \textit{postive} and node $b$ which is expected to classify as \textit{negtive}
+          have the same 4-hop neighbor structure. Only with more than $5$ times message passing can a model classify them correctly.
+\end{enumerate}
+
 
 % Question 3.2
 \newquestion{3.2}
+\begin{enumerate}[(i)]
+    \item The entry $(i,j)$ in transition matrix is,
+          \\$\frac{1}{|D_{i,i}|}$ for a connected point couple node $i$ and node $j$
+              \\$0$ otherwise,
+          which is $$D^{-1}A$$
+    \item The entry $(i,j)$ in transition matrix is,
+          \\$\frac{1}{2}$ when $i=j$,
+              \\$\frac{1}{2*|D_{i,i}|}$ for a connected point couple node $i$ and node $j$,
+          \\$0$ otherwise,
+          which is $$\frac{1}{2}D^{-1}A+\frac{1}{2}I$$
+\end{enumerate}
 
 % Question 3.3
 \newquestion{3.3}
+After $l$ times message passing, the hidden representation should be $$h^{(l)} = (D^{-1}A)^lh^{(1)}$$
+Use $L_r$ to represent $D^{-1}A$. Firstly, it's easy to see that $1$ and $[1,...,1]^T$ is one of the eigenvalue and eigenvector of matrix $L_r$.
+Consider a new vector $y$, which is not a multiple of $[1,...,1]^T$, and define $S$ as a set of nodes whose value is $max(|y_i|)$.\\\\
+Then, for some node $j \in S$ and a neighbor $i \notin S$, which must exist because the graph is connected and every node has a degree not less than $2$,
+the value of $|L_ry_j|$ will be less than $|y_j|$ and thus we need the corresponding $|\lambda|$ to be less than $1$. So we can conclude that \textbf{the absolute values of all the eigenvalues of $L_r$ is less or equal than $1$}.\\\\
+So $L_r^l$ tends to converge to some point and $h^{(l)}$ will converge as $l \rightarrow \inf$. \\\\
+For a more formal prove of GCN's over smoothing effect, you can refer to Li et. al.'s work in AAAI2018, \textit{Deeper Insights into Graph Convolutional Networks for Semi-Supervised Learning}.
 
 % Question 3.3
 \newquestion{3.4}
+\begin{enumerate}[(i)]
+    \item The update ruls is simple:
+          \begin{itemize}
+              \item set the embedding of points with maximum reachability (embedding) to 1
+              \item perform average aggregration of neighbor nodes(or every node)
+          \end{itemize}
+    \item \begin{itemize}
+              \item message function: inform the neighbor nodes to update their embeddings when current node is visited
+              \item aggregration function: $h_i^{(l+1)} = \frac{1}{|N_i|}\sum_{j \in N_i}h_j^{(l)}$
+          \end{itemize}
+\end{enumerate}
 
 % Question 4.1
 \newquestion{4.1}
