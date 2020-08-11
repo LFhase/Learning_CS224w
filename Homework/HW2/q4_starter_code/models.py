@@ -4,21 +4,30 @@ import torch.nn.functional as F
 
 import torch_geometric.nn as pyg_nn
 import torch_geometric.utils as pyg_utils
+from torch_scatter import scatter_mean
+from utils import init_weight_
+
 
 class GNNStack(torch.nn.Module):
+
     def __init__(self, input_dim, hidden_dim, output_dim, args, task='node'):
         super(GNNStack, self).__init__()
         conv_model = self.build_conv_model(args.model_type)
         self.convs = nn.ModuleList()
-        self.convs.append(conv_model(input_dim, hidden_dim))
         assert (args.num_layers >= 1), 'Number of layers is not >=1'
-        for l in range(args.num_layers-1):
-            self.convs.append(conv_model(hidden_dim, hidden_dim))
+        if args.num_layers == 1:
+            self.convs.append(conv_model(input_dim, output_dim))
+        else:
+            self.convs.append(conv_model(input_dim, hidden_dim))
+            for l in range(args.num_layers - 2):
+                self.convs.append(conv_model(hidden_dim, hidden_dim))
+            self.convs.append(conv_model(hidden_dim, output_dim))
 
         # post-message-passing
-        self.post_mp = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim), nn.Dropout(args.dropout), 
-            nn.Linear(hidden_dim, output_dim))
+        self.post_mp = nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.Dropout(args.dropout),
+                                     nn.Linear(hidden_dim, output_dim))
+        init_weight_(self.post_mp[0].weight)
+        init_weight_(self.post_mp[2].weight)
 
         self.task = task
         if not (self.task == 'node' or self.task == 'graph'):
@@ -37,20 +46,29 @@ class GNNStack(torch.nn.Module):
 
     def forward(self, data):
         x, edge_index, batch = data.x, data.edge_index, data.batch
-
+        # print(x.size())
+        # print(edge_index.size())
+        # print(batch.size())
+        # print(batch)
         ############################################################################
-        # TODO: Your code here! 
+        # TODO: Your code here!
         # Each layer in GNN should consist of a convolution (specified in model_type),
-        # a non-linearity (use RELU), and dropout. 
-        # HINT: the __init__ function contains parameters you will need. You may 
+        # a non-linearity (use RELU), and dropout.
+        # HINT: the __init__ function contains parameters you will need. You may
         # also find pyg_nn.global_max_pool useful for graph classification.
         # Our implementation is ~6 lines, but don't worry if you deviate from this.
-
-        x = None # TODO
-
+        x = self.convs[0](x, edge_index)
+        if self.num_layers > 1:
+            for l in range(1, self.num_layers - 1):
+                x = F.relu(x)
+                x = F.dropout(x, p=self.dropout, training=self.training)
+                x = self.convs[l](x, edge_index)
+        if self.task == "graph":
+            #x = scatter_mean(x, batch, dim=0)
+            x = pyg_nn.global_max_pool(x, batch)
         ############################################################################
 
-        x = self.post_mp(x)
+        #x = self.post_mp(x)
 
         return F.log_softmax(x, dim=1)
 
@@ -60,17 +78,18 @@ class GNNStack(torch.nn.Module):
 
 class GraphSage(pyg_nn.MessagePassing):
     """Non-minibatch version of GraphSage."""
-    def __init__(self, in_channels, out_channels, reducer='mean', 
-                 normalize_embedding=True):
+
+    def __init__(self, in_channels, out_channels, reducer='mean', normalize_embedding=True):
         super(GraphSage, self).__init__(aggr='mean')
 
         ############################################################################
-        # TODO: Your code here! 
-        # Define the layers needed for the forward function. 
+        # TODO: Your code here!
+        # Define the layers needed for the forward function.
         # Our implementation is ~2 lines, but don't worry if you deviate from this.
 
-        self.lin = None # TODO
-        self.agg_lin = None # TODO
+        self.lin = nn.Linear(in_channels, out_channels)
+        #self.agg_lin = nn.Linear(out_channels * 2, out_channels)
+        self.agg_lin = nn.Linear(in_channels * 2, out_channels)
 
         ############################################################################
 
@@ -83,36 +102,38 @@ class GraphSage(pyg_nn.MessagePassing):
         # edge_index has shape [2, E]
 
         ############################################################################
-        # TODO: Your code here! 
+        # TODO: Your code here!
         # Given x, perform the aggregation and pass it through a MLP with skip-
-        # connection. Place the result in out. 
+        # connection. Place the result in out.
         # HINT: It may be useful to read the pyg_nn implementation of GCNConv,
         # https://pytorch-geometric.readthedocs.io/en/latest/notes/create_gnn.html
         # Our implementation is ~4 lines, but don't worry if you deviate from this.
-
-        out = None # TODO
-
+        #out = self.lin(x)
+        out = x
         ############################################################################
 
-        return self.propagate(edge_index, size=(num_nodes, num_nodes), x=out)
+        # Need to CHANGE the name here cuz its name is conflicted with the internal parameter
+        return self.propagate(edge_index=edge_index, size2=(num_nodes, num_nodes), x=out)
 
-    def message(self, x_j, edge_index, size):
+    def message(self, x_j, edge_index, size2):
+        return x_j
         # x_j has shape [E, out_channels]
 
         row, col = edge_index
-        deg = pyg_utils.degree(row, size[0], dtype=x_j.dtype)
+        deg = pyg_utils.degree(row, size2[0], dtype=x_j.dtype)
         deg_inv_sqrt = deg.pow(-0.5)
         norm = deg_inv_sqrt[row] * deg_inv_sqrt[col]
 
         return norm.view(-1, 1) * x_j
 
-    def update(self, aggr_out):
+    def update(self, aggr_out, x):
         ############################################################################
-        # TODO: Your code here! Perform the update step here. 
+        # TODO: Your code here! Perform the update step here.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
-
+        cat_x = torch.cat([x, aggr_out], dim=-1)
+        aggr_out = F.relu(self.agg_lin(cat_x))
         if self.normalize_emb:
-            aggr_out = None # TODO
+            aggr_out = F.normalize(aggr_out, 2.0, -1)
 
         ############################################################################
 
@@ -121,23 +142,22 @@ class GraphSage(pyg_nn.MessagePassing):
 
 class GAT(pyg_nn.MessagePassing):
 
-    def __init__(self, in_channels, out_channels, num_heads=1, concat=True,
-                 dropout=0, bias=True, **kwargs):
+    def __init__(self, in_channels, out_channels, num_heads=1, concat=True, dropout=0, bias=True, **kwargs):
         super(GAT, self).__init__(aggr='add', **kwargs)
 
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.heads = num_heads
-        self.concat = concat 
+        self.concat = concat
         self.dropout = dropout
 
         ############################################################################
         #  TODO: Your code here!
-        # Define the layers needed for the forward function. 
+        # Define the layers needed for the forward function.
         # Remember that the shape of the output depends the number of heads.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
-        self.lin = None # TODO
+        self.lin = None  # TODO
 
         ############################################################################
 
@@ -148,7 +168,7 @@ class GAT(pyg_nn.MessagePassing):
         # mechanism here. Remember to consider number of heads for dimension!
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
-        self.att = None # TODO
+        self.att = None  # TODO
 
         ############################################################################
 
@@ -170,8 +190,8 @@ class GAT(pyg_nn.MessagePassing):
         # Apply your linear transformation to the node feature matrix before starting
         # to propagate messages.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
-        
-        x = None # TODO
+
+        x = None  # TODO
         ############################################################################
 
         # Start propagating messages.
@@ -182,11 +202,11 @@ class GAT(pyg_nn.MessagePassing):
 
         ############################################################################
         #  TODO: Your code here! Compute the attention coefficients alpha as described
-        # in equation (7). Remember to be careful of the number of heads with 
+        # in equation (7). Remember to be careful of the number of heads with
         # dimension!
         # Our implementation is ~5 lines, but don't worry if you deviate from this.
 
-        alpha = None # TODO
+        alpha = None  # TODO
 
         ############################################################################
 

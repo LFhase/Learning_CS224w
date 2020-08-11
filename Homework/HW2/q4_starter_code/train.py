@@ -1,4 +1,3 @@
-
 import argparse
 import time
 
@@ -16,48 +15,44 @@ import torch_geometric.nn as pyg_nn
 import models
 import utils
 
+torch.manual_seed(123)
+np.random.seed(123)
+
 
 def arg_parse():
     parser = argparse.ArgumentParser(description='GNN arguments.')
     utils.parse_optimizer(parser)
 
-    parser.add_argument('--model_type', type=str,
-                        help='Type of GNN model.')
-    parser.add_argument('--batch_size', type=int,
-                        help='Training batch size')
-    parser.add_argument('--num_layers', type=int,
-                        help='Number of graph conv layers')
-    parser.add_argument('--hidden_dim', type=int,
-                        help='Training hidden size')
-    parser.add_argument('--dropout', type=float,
-                        help='Dropout rate')
-    parser.add_argument('--epochs', type=int,
-                        help='Number of training epochs')
-    parser.add_argument('--dataset', type=str,
-                        help='Dataset')
+    parser.add_argument('--model_type', type=str, help='Type of GNN model.')
+    parser.add_argument('--batch_size', type=int, help='Training batch size')
+    parser.add_argument('--num_layers', type=int, help='Number of graph conv layers')
+    parser.add_argument('--hidden_dim', type=int, help='Training hidden size')
+    parser.add_argument('--dropout', type=float, help='Dropout rate')
+    parser.add_argument('--epochs', type=int, help='Number of training epochs')
+    parser.add_argument('--dataset', type=str, help='Dataset')
 
-    parser.set_defaults(model_type='GCN',
-                        dataset='cora',
-                        num_layers=2,
-                        batch_size=32,
-                        hidden_dim=32,
-                        dropout=0.0,
-                        epochs=200,
-                        opt='adam',   # opt_parser
-                        opt_scheduler='none',
-                        weight_decay=0.0,
-                        lr=0.01)
+    parser.set_defaults(
+        model_type='GCN',
+        dataset='cora',
+        num_layers=2,
+        batch_size=32,
+        hidden_dim=16,
+        dropout=0.5,
+        epochs=200,
+        opt='adam',  # opt_parser
+        opt_scheduler='none',
+        weight_decay=0,
+        lr=0.01)
 
     return parser.parse_args()
+
 
 def train(dataset, task, args):
     if task == 'graph':
         # graph classification: separate dataloader for test set
         data_size = len(dataset)
-        loader = DataLoader(
-                dataset[:int(data_size * 0.8)], batch_size=args.batch_size, shuffle=True)
-        test_loader = DataLoader(
-                dataset[int(data_size * 0.8):], batch_size=args.batch_size, shuffle=True)
+        loader = DataLoader(dataset[:int(data_size * 0.8)], batch_size=args.batch_size, shuffle=True)
+        test_loader = DataLoader(dataset[int(data_size * 0.8):], batch_size=args.batch_size, shuffle=True)
     elif task == 'node':
         # use mask to split train/validation/test
         test_loader = loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
@@ -65,11 +60,14 @@ def train(dataset, task, args):
         raise RuntimeError('Unknown task')
 
     # build model
-    model = models.GNNStack(dataset.num_node_features, args.hidden_dim, dataset.num_classes, 
-                            args, task=task)
+    model = models.GNNStack(dataset.num_node_features, args.hidden_dim, dataset.num_classes, args, task=task)
+    print(model)
     scheduler, opt = utils.build_optimizer(args, model.parameters())
 
     # train
+    best_val_acc = 0
+    test_acc = 0
+
     for epoch in range(args.epochs):
         total_loss = 0
         model.train()
@@ -85,11 +83,17 @@ def train(dataset, task, args):
             opt.step()
             total_loss += loss.item() * batch.num_graphs
         total_loss /= len(loader.dataset)
-        print(total_loss)
+        print("Loss in Epoch {0}: {1}".format(epoch, total_loss))
 
         if epoch % 10 == 0:
-            test_acc = test(loader, model)
-            print(test_acc,   '  test')
+            val_acc, tmp_test_acc = test(loader, model, is_validation=True), test(loader, model)
+            if val_acc > best_val_acc:
+                best_val_acc = val_acc
+                test_acc = tmp_test_acc
+            print("Current Best Val Acc {0}, with Test Acc {1}".format(best_val_acc, test_acc))
+
+    print('Final Val Acc {0}, Test Acc {1}'.format(val_acc, test_acc))
+
 
 def test(loader, model, is_validation=False):
     model.eval()
@@ -106,28 +110,33 @@ def test(loader, model, is_validation=False):
             # node classification: only evaluate on nodes in test set
             pred = pred[mask]
             label = data.y[mask]
-            
+
         correct += pred.eq(label).sum().item()
-    
+
     if model.task == 'graph':
-        total = len(loader.dataset) 
+        total = len(loader.dataset)
     else:
         total = 0
         for data in loader.dataset:
-            total += torch.sum(data.test_mask).item()
+            total += torch.sum(data.test_mask).item() if not is_validation else torch.sum(data.val_mask).item()
     return correct / total
+
 
 def main():
     args = arg_parse()
 
     if args.dataset == 'enzymes':
         dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES')
+        print("# graphs: ", len(dataset))
         task = 'graph'
     elif args.dataset == 'cora':
         dataset = Planetoid(root='/tmp/Cora', name='Cora')
+        print("# nodes: ", dataset[0].num_nodes)
+        print("# edges: ", dataset[0].num_edges)
         task = 'node'
-    train(dataset, task, args) 
+
+    train(dataset, task, args)
+
 
 if __name__ == '__main__':
     main()
-
