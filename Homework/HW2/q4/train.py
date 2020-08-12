@@ -116,14 +116,14 @@ def test(loader, model, is_validation=False):
         data.to(device)
         with torch.no_grad():
             # max(dim=1) returns values, indices tuple; only need indices
-            pred = model(data).max(dim=1)[1].cpu()
-            label = data.y.cpu()
+            pred = model(data).max(dim=1)[1]
+            label = data.y
 
         if model.task == 'node':
-            mask = data.val_mask if is_validation else data.test_mask
+            mask = data.val_mask.cpu() if is_validation else data.test_mask.cpu()
             # node classification: only evaluate on nodes in test set
-            pred = pred[mask]
-            label = data.y[mask]
+            pred = pred[mask].cpu()
+            label = data.y[mask].cpu()
 
         correct += pred.eq(label).sum().item()
 
