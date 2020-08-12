@@ -113,10 +113,11 @@ def test(loader, model, is_validation=False):
 
     correct = 0
     for data in loader:
+        data.to(device)
         with torch.no_grad():
             # max(dim=1) returns values, indices tuple; only need indices
-            pred = model(data).max(dim=1)[1]
-            label = data.y
+            pred = model(data).max(dim=1)[1].cpu()
+            label = data.y.cpu()
 
         if model.task == 'node':
             mask = data.val_mask if is_validation else data.test_mask
