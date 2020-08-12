@@ -72,7 +72,7 @@ def train(dataset, task, args):
     # train
     best_val_acc = 0
     test_acc = 0
-    early_stop = 20
+    early_stop = 40
     stop_cnt = 0
 
     for epoch in range(1, args.epochs + 1):
