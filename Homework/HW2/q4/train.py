@@ -9,14 +9,18 @@ import torch.optim as optim
 from torch_geometric.datasets import TUDataset
 from torch_geometric.datasets import Planetoid
 from torch_geometric.data import DataLoader
+import torch_geometric.transforms as T
 
 import torch_geometric.nn as pyg_nn
 
 import models
 import utils
+import os
 
-torch.manual_seed(123)
-np.random.seed(123)
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+# get the device to run
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def arg_parse():
@@ -61,17 +65,21 @@ def train(dataset, task, args):
 
     # build model
     model = models.GNNStack(dataset.num_node_features, args.hidden_dim, dataset.num_classes, args, task=task)
+    model.to(device)
     print(model)
     scheduler, opt = utils.build_optimizer(args, model.parameters())
 
     # train
     best_val_acc = 0
     test_acc = 0
+    early_stop = 20
+    stop_cnt = 0
 
-    for epoch in range(args.epochs):
+    for epoch in range(1, args.epochs + 1):
         total_loss = 0
         model.train()
         for batch in loader:
+            batch.to(device)
             opt.zero_grad()
             pred = model(batch)
             label = batch.y
@@ -83,16 +91,21 @@ def train(dataset, task, args):
             opt.step()
             total_loss += loss.item() * batch.num_graphs
         total_loss /= len(loader.dataset)
-        print("Loss in Epoch {0}: {1}".format(epoch, total_loss))
 
-        if epoch % 10 == 0:
-            val_acc, tmp_test_acc = test(loader, model, is_validation=True), test(loader, model)
-            if val_acc > best_val_acc:
-                best_val_acc = val_acc
-                test_acc = tmp_test_acc
-            print("Current Best Val Acc {0}, with Test Acc {1}".format(best_val_acc, test_acc))
+        val_acc, tmp_test_acc = test(loader, model, is_validation=True), test(loader, model)
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+            test_acc = tmp_test_acc
+            stop_cnt = 0
+        else:
+            stop_cnt += 1
+        print("Loss in Epoch {:03d}: {:.4f}. ".format(epoch, total_loss), end="")
+        print("Current Best Val Acc {:.4f}, with Test Acc {:.4f}".format(best_val_acc, test_acc))
 
-    print('Final Val Acc {0}, Test Acc {1}'.format(val_acc, test_acc))
+        if stop_cnt >= early_stop:
+            break
+
+    print('Final Val Acc {0}, Test Acc {1}'.format(best_val_acc, test_acc))
 
 
 def test(loader, model, is_validation=False):
@@ -130,7 +143,7 @@ def main():
         print("# graphs: ", len(dataset))
         task = 'graph'
     elif args.dataset == 'cora':
-        dataset = Planetoid(root='/tmp/Cora', name='Cora')
+        dataset = Planetoid(root='/tmp/Cora', name='Cora', transform=T.NormalizeFeatures())
         print("# nodes: ", dataset[0].num_nodes)
         print("# edges: ", dataset[0].num_edges)
         task = 'node'

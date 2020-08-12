@@ -15,24 +15,28 @@ class GNNStack(torch.nn.Module):
         conv_model = self.build_conv_model(args.model_type)
         self.convs = nn.ModuleList()
         assert (args.num_layers >= 1), 'Number of layers is not >=1'
+
+        self.conv_output_dim = hidden_dim
+        if args.model_type == "GCN":
+            self.conv_output_dim = output_dim
+
         if args.num_layers == 1:
-            self.convs.append(conv_model(input_dim, output_dim))
+            self.convs.append(conv_model(input_dim, self.conv_output_dim))
         else:
             self.convs.append(conv_model(input_dim, hidden_dim))
             for l in range(args.num_layers - 2):
                 self.convs.append(conv_model(hidden_dim, hidden_dim))
-            self.convs.append(conv_model(hidden_dim, output_dim))
+            self.convs.append(conv_model(hidden_dim, self.conv_output_dim))
 
         # post-message-passing
         self.post_mp = nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.Dropout(args.dropout),
                                      nn.Linear(hidden_dim, output_dim))
-        init_weight_(self.post_mp[0].weight)
-        init_weight_(self.post_mp[2].weight)
 
         self.task = task
         if not (self.task == 'node' or self.task == 'graph'):
             raise RuntimeError('Unknown task.')
 
+        self.model_type = args.model_type
         self.dropout = args.dropout
         self.num_layers = args.num_layers
 
@@ -46,10 +50,7 @@ class GNNStack(torch.nn.Module):
 
     def forward(self, data):
         x, edge_index, batch = data.x, data.edge_index, data.batch
-        # print(x.size())
-        # print(edge_index.size())
-        # print(batch.size())
-        # print(batch)
+
         ############################################################################
         # TODO: Your code here!
         # Each layer in GNN should consist of a convolution (specified in model_type),
@@ -59,16 +60,18 @@ class GNNStack(torch.nn.Module):
         # Our implementation is ~6 lines, but don't worry if you deviate from this.
         x = self.convs[0](x, edge_index)
         if self.num_layers > 1:
-            for l in range(1, self.num_layers - 1):
+            for l in range(1, self.num_layers):
                 x = F.relu(x)
                 x = F.dropout(x, p=self.dropout, training=self.training)
                 x = self.convs[l](x, edge_index)
+        if self.model_type != "GCN":
+            x = F.relu(x)
+            x = F.dropout(x, p=self.dropout, training=self.training)
+            x = self.post_mp(x)
         if self.task == "graph":
             #x = scatter_mean(x, batch, dim=0)
             x = pyg_nn.global_max_pool(x, batch)
         ############################################################################
-
-        #x = self.post_mp(x)
 
         return F.log_softmax(x, dim=1)
 
@@ -88,8 +91,9 @@ class GraphSage(pyg_nn.MessagePassing):
         # Our implementation is ~2 lines, but don't worry if you deviate from this.
 
         self.lin = nn.Linear(in_channels, out_channels)
-        #self.agg_lin = nn.Linear(out_channels * 2, out_channels)
-        self.agg_lin = nn.Linear(in_channels * 2, out_channels)
+        self.agg_lin = nn.Linear(in_channels, out_channels)
+        init_weight_(self.lin.weight)
+        init_weight_(self.agg_lin.weight)
 
         ############################################################################
 
@@ -108,17 +112,16 @@ class GraphSage(pyg_nn.MessagePassing):
         # HINT: It may be useful to read the pyg_nn implementation of GCNConv,
         # https://pytorch-geometric.readthedocs.io/en/latest/notes/create_gnn.html
         # Our implementation is ~4 lines, but don't worry if you deviate from this.
-        #out = self.lin(x)
-        out = x
+
+        out = F.relu(self.agg_lin(x))
+
         ############################################################################
 
-        # Need to CHANGE the name here cuz its name is conflicted with the internal parameter
-        return self.propagate(edge_index=edge_index, size2=(num_nodes, num_nodes), x=out)
+        return self.propagate(edge_index, size2=(num_nodes, num_nodes), x=out, ori_x=x)
 
     def message(self, x_j, edge_index, size2):
-        return x_j
         # x_j has shape [E, out_channels]
-
+        return x_j
         row, col = edge_index
         deg = pyg_utils.degree(row, size2[0], dtype=x_j.dtype)
         deg_inv_sqrt = deg.pow(-0.5)
@@ -126,14 +129,16 @@ class GraphSage(pyg_nn.MessagePassing):
 
         return norm.view(-1, 1) * x_j
 
-    def update(self, aggr_out, x):
+    def update(self, aggr_out, ori_x):
         ############################################################################
         # TODO: Your code here! Perform the update step here.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
-        cat_x = torch.cat([x, aggr_out], dim=-1)
-        aggr_out = F.relu(self.agg_lin(cat_x))
+        #agg_x = self.agg_lin(aggr_out)
+        agg_x = aggr_out
+        ori_x = self.lin(ori_x)
+        aggr_out = F.relu(agg_x + ori_x)
         if self.normalize_emb:
-            aggr_out = F.normalize(aggr_out, 2.0, -1)
+            aggr_out = F.normalize(aggr_out, 2, dim=-1)
 
         ############################################################################
 
