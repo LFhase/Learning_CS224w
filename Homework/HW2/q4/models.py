@@ -162,7 +162,7 @@ class GAT(pyg_nn.MessagePassing):
         # Remember that the shape of the output depends the number of heads.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
-        self.lin = None  # TODO
+        self.lin = nn.Linear(in_channels, out_channels * num_heads)
 
         ############################################################################
 
@@ -173,7 +173,7 @@ class GAT(pyg_nn.MessagePassing):
         # mechanism here. Remember to consider number of heads for dimension!
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
-        self.att = None  # TODO
+        self.att = nn.Parameter(torch.Tensor(num_heads, out_channels * 2))
 
         ############################################################################
 
@@ -196,7 +196,7 @@ class GAT(pyg_nn.MessagePassing):
         # to propagate messages.
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
-        x = None  # TODO
+        x = self.lin(x)  # TODO
         ############################################################################
 
         # Start propagating messages.
@@ -210,8 +210,11 @@ class GAT(pyg_nn.MessagePassing):
         # in equation (7). Remember to be careful of the number of heads with
         # dimension!
         # Our implementation is ~5 lines, but don't worry if you deviate from this.
-
-        alpha = None  # TODO
+        cat_x = torch.cat([x_i.view(-1, self.heads, self.out_channels),
+                           x_j.view(-1, self.heads, self.out_channels)],
+                          dim=-1)
+        alpha = F.leaky_relu((cat_x * self.att).sum(-1), 0.2)
+        alpha = pyg_utils.softmax(alpha, edge_index_i, num_nodes=size_i)
 
         ############################################################################
 
