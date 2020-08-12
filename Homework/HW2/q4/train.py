@@ -144,7 +144,7 @@ def main():
         print("# graphs: ", len(dataset))
         task = 'graph'
     elif args.dataset == 'cora':
-        dataset = Planetoid(root='/tmp/Cora', name='Cora', transform=T.NormalizeFeatures())
+        dataset = Planetoid(root='/tmp/Cora', name='Cora')
         print("# nodes: ", dataset[0].num_nodes)
         print("# edges: ", dataset[0].num_edges)
         task = 'node'

@@ -23,10 +23,19 @@ class GNNStack(torch.nn.Module):
         if args.num_layers == 1:
             self.convs.append(conv_model(input_dim, self.conv_output_dim))
         else:
-            self.convs.append(conv_model(input_dim, hidden_dim))
-            for l in range(args.num_layers - 2):
-                self.convs.append(conv_model(hidden_dim, hidden_dim))
-            self.convs.append(conv_model(hidden_dim, self.conv_output_dim))
+            if args.model_type == "GAT":
+                self.convs.append(conv_model(input_dim, hidden_dim, num_heads=8, dropout=args.dropout))
+                hidden_dim = 8 * hidden_dim
+                self.conv_output_dim = hidden_dim
+                for l in range(args.num_layers - 2):
+                    self.convs.append(conv_model(hidden_dim, hidden_dim, dropout=args.dropout))
+                self.convs.append(conv_model(hidden_dim, self.conv_output_dim, concat=False, dropout=args.dropout))
+
+            else:
+                self.convs.append(conv_model(input_dim, hidden_dim))
+                for l in range(args.num_layers - 2):
+                    self.convs.append(conv_model(hidden_dim, hidden_dim))
+                self.convs.append(conv_model(hidden_dim, self.conv_output_dim))
 
         # post-message-passing
         self.post_mp = nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.Dropout(args.dropout),
@@ -163,7 +172,6 @@ class GAT(pyg_nn.MessagePassing):
         # Our implementation is ~1 line, but don't worry if you deviate from this.
 
         self.lin = nn.Linear(in_channels, out_channels * num_heads)
-
         ############################################################################
 
         ############################################################################
@@ -210,9 +218,9 @@ class GAT(pyg_nn.MessagePassing):
         # in equation (7). Remember to be careful of the number of heads with
         # dimension!
         # Our implementation is ~5 lines, but don't worry if you deviate from this.
-        cat_x = torch.cat([x_i.view(-1, self.heads, self.out_channels),
-                           x_j.view(-1, self.heads, self.out_channels)],
-                          dim=-1)
+        x_i = x_i.view(-1, self.heads, self.out_channels)
+        x_j = x_j.view(-1, self.heads, self.out_channels)
+        cat_x = torch.cat([x_i, x_j], dim=-1)
         alpha = F.leaky_relu((cat_x * self.att).sum(-1), 0.2)
         alpha = pyg_utils.softmax(alpha, edge_index_i, num_nodes=size_i)
 
@@ -220,14 +228,14 @@ class GAT(pyg_nn.MessagePassing):
 
         alpha = F.dropout(alpha, p=self.dropout, training=self.training)
 
-        return x_j * alpha.view(-1, self.heads, 1)
+        return (x_j * alpha.unsqueeze(-1)).view(-1, self.heads * self.out_channels)
 
     def update(self, aggr_out):
         # Updates node embedings.
         if self.concat is True:
             aggr_out = aggr_out.view(-1, self.heads * self.out_channels)
         else:
-            aggr_out = aggr_out.mean(dim=1)
+            aggr_out = aggr_out.view(-1, self.heads, self.out_channels).mean(dim=1)
 
         if self.bias is not None:
             aggr_out = aggr_out + self.bias
