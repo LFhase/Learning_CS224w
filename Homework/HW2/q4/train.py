@@ -148,7 +148,6 @@ def main():
         print("# nodes: ", dataset[0].num_nodes)
         print("# edges: ", dataset[0].num_edges)
         task = 'node'
-
     train(dataset, task, args)
 
 
