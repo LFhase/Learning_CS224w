@@ -23,17 +23,22 @@ You can open a new issue or send me an email if you find any mistakes.
 - [Done] HW0 😄
     - problem set: [hw0.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/hw0.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.py)
-    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/solution.pdf)
+    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW0/hw0_solution.pdf)
 - [Done] HW1 😄
     - problem set: [hw1.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/hw1.pdf)
     - code: 
         - [q1_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q1_solution.py)
         - [q2_solutiopn.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/q2_solution.py)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW1/hw1_solution.pdf)
-- [Ongoing] HW2 ⛰️
-    - problem set: [hw2.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw0.pdf)
+- [Done] HW2 😄
+    - problem set: [hw2.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw2.pdf)
+    - q1: [q1_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/q1_solution.py)
+    - q4: [q4_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/q4)
+    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw2_solution.pdf)
+- [Ongoing] HW3 ⛰️
+    - problem set: [hw3.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw3.pdf)
     - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/solution.py)
-    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/solution.pdf)
+    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw3_solution.pdf)
 - **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than <strike>***July, 2020***</strike> ***August, 2020***.
 
 ## Tools 🔨

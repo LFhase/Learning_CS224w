@@ -7,7 +7,9 @@
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{titlesec}
+\usepackage{listings}
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+
 
 \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
 
@@ -248,20 +250,64 @@ For a more formal prove of GCN's over smoothing effect, you can refer to Li et. 
 % Question 4.1
 \newquestion{4.1}
 \begin{itemize}
-    \item CORA: # of nodes is 10556, # of edges is 2708.
-    \item ENZYMES: # of graphs is 600.
+    \item CORA: no. of nodes is 10556, no. of edges is 2708.
+    \item ENZYMES: no. of graphs is 600.
 \end{itemize}
 
 % Question 4.2
 \newquestion{4.2}
+With a little bit parameter finetuning and bug fixes in starter code, we finally implemented GCN, GraphSage and GAT
+as well as some basic training strategies like early stopping.
 
+The running commands are as below:
+\begin{lstlisting}[basicstyle=\tiny]
+# gcn
+python train.py #0.79
+python train.py --dataset enzymes --dropout 0   #0.36
+# graphsage
+python train.py --model_type GraphSage --hidden_dim 256 --dropout 0.6 --weight_decay 5e-4 #0.78
+python train.py --model_type GraphSage --hidden_dim 256 --dataset enzymes --dropout 0 --epochs 600  #0.75
+# gat
+python train.py --model_type GAT --lr 0.001 --hidden_dim 64 --dropout 0.6 --weight_decay 5e-4   #0.815
+python train.py --model_type GAT --dataset enzymes --dropout 0 --epochs 600 #0.61
+\end{lstlisting}
+
+Here is a summary of average performance: \\
+GCN
+\begin{itemize}
+    \item CORA: 0.79
+    \item ENZYMES: 0.36
+\end{itemize}
+GraphSage
+\begin{itemize}
+    \item CORA: 0.78
+    \item ENZYMES: 0.75
+\end{itemize}
+GAT
+\begin{itemize}
+    \item CORA: 0.815
+    \item ENZYMES: 0.61
+\end{itemize}
 % Question 4.3
 \newquestion{4.3}
+Validation accuary plots on different tasks are as below:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/cora_val.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pics/enzymes_val.png}
+\end{figure}
+We can see that the validation accuary curve has some fluctuations during training. \\
+In node classification task, GAT $>$ GCN $>$ GraphSage.\\
+In graph classification task, GradeSage $>$  GAT $>$  GCN.
+
 
 
 % Information sheet
 % Fill out the information below (this should be the last page of your assignment)
-,k/98\'J>K.\addinformationsheet
+\addinformationsheet
 \vfill
 
 {\Large

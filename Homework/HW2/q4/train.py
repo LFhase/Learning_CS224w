@@ -13,6 +13,7 @@ import torch_geometric.transforms as T
 
 import torch_geometric.nn as pyg_nn
 
+from matplotlib import pyplot as plt
 import models
 import utils
 import os
@@ -70,9 +71,11 @@ def train(dataset, task, args):
     scheduler, opt = utils.build_optimizer(args, model.parameters())
 
     # train
+    vals = []
+    tests = []
     best_val_acc = 0
     test_acc = 0
-    early_stop = 40
+    early_stop = 1e9
     stop_cnt = 0
 
     for epoch in range(1, args.epochs + 1):
@@ -93,6 +96,9 @@ def train(dataset, task, args):
         total_loss /= len(loader.dataset)
 
         val_acc, tmp_test_acc = test(loader, model, is_validation=True), test(loader, model)
+        vals.append(val_acc)
+        tests.append(tmp_test_acc)
+
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             test_acc = tmp_test_acc
@@ -106,6 +112,7 @@ def train(dataset, task, args):
             break
 
     print('Final Val Acc {0}, Test Acc {1}'.format(best_val_acc, test_acc))
+    return list(range(1, args.epochs + 1)), vals
 
 
 def test(loader, model, is_validation=False):
@@ -139,6 +146,10 @@ def test(loader, model, is_validation=False):
 def main():
     args = arg_parse()
 
+    args.dataset = "enzymes"
+    args.dropout = 0
+    args.epochs = 600
+
     if args.dataset == 'enzymes':
         dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES')
         print("# graphs: ", len(dataset))
@@ -148,7 +159,26 @@ def main():
         print("# nodes: ", dataset[0].num_nodes)
         print("# edges: ", dataset[0].num_edges)
         task = 'node'
-    train(dataset, task, args)
+
+    gcn_epoch, gcn_vals = train(dataset, task, args)
+    plt.plot(gcn_epoch, gcn_vals, label="GCN")
+
+    args.model_type = "GraphSage"
+    args.hidden_dim = 256
+    gcn_epoch, gcn_vals = train(dataset, task, args)
+    plt.plot(gcn_epoch, gcn_vals, label="GraphSage")
+
+    args.model_type = "GAT"
+    args.hidden_dim = 16
+    gcn_epoch, gcn_vals = train(dataset, task, args)
+    plt.plot(gcn_epoch, gcn_vals, label="GAT")
+
+    plt.title("Validation Accuracy Changes over Epochs on Enzymes Dataset")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == '__main__':
