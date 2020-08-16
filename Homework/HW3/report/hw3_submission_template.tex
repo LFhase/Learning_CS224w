@@ -2,11 +2,13 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{titlesec}
+\usepackage{listings}
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
-
 \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
 
 % No page numbers
@@ -58,13 +60,65 @@
 
 
 \newquestion{1.1}
+\\
+Total nodes of email:  265214 \\
+IN of 2018 in email:  1 \\
+OUT of 2018 in email:  52104 \\
+Total nodes of epinions:  75879 \\
+IN of 224 in epinions:  56459 \\
+OUT of 224 in epinions:  47676 \\
+\\
+According to the definition, node 2018 of email lies in IN and node 224 of epinions lies in SCC.
 
 \newquestion{1.2}
+Plot for email is as below:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pic/q1_2_email.png}
+\end{figure}
+From the picture we can roughly estimate that relative sizes of SCC, IN and OUT are  16.5\%,  58.5\%, 5.5\%.
+\\
+Plot for epinions is as below:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pic/q1_2_ep.png}
+\end{figure}
+From the picture we can roughly estimate that relative sizes of SCC, IN and OUT are  43.66\%,  30.34\%, 15.34\%.
 
 \newquestion{1.3}
+\\
+Firstly, we can use (total\_nodes - MxWcc\_size) and MxScc\_size to calculate the sizes of DISCONNECT and SCC.
+Then starting from any node in SCC, do one forward BFS to calculate the size of OUT and one backward BFS to calculate the size of IN.
+The left is TENDRILS+TUBES(TT). The results are as follows:
+\\
+Total nodes of email:  265214 \\
+Size of MxWcc in email:  224832 \\
+Size of MxScc in email:  34203 \\
+Size of IN in email:  151023 \\
+Size of OUT in email:  17900 \\
+Size of TT in email:  21706 \\
+Size of DISCONNECT in email:  40382 \\
+\\
+Total nodes of epinions:  75879 \\
+Size of MxWcc in epinions:  75877 \\
+Size of MxScc in epinions:  32223 \\
+Size of IN in epinions:  24236 \\
+Size of OUT in epinions:  15453 \\
+Size of TT in epinions:  3965 \\
+Size of DISCONNECT in epinions:  2 \\
 
 \newquestion{1.4}
-
+The sampled probabiltiy plots are as follows:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{pic/q1_con.png}
+\end{figure}
+We can see that both of email and epinions converge to 14\% 46\%. \\\\
+If we neglect the other parts, the probabiltiy will be converged to
+$$
+    p = \frac{size_{IN}+size_{SCC}}{size_{IN}+size_{SCC}+size_{OUT}}*\frac{size_{OUT}+size_{SCC}}{size_{IN}+size_{SCC}+size_{OUT}}
+$$
+which is higher than (23\%, 52\% respectively for email and epinions), since other parts still take up a certain number of percentage of the graph.
 
 \newquestion{2.1}
 
@@ -95,19 +149,19 @@
 \vfill
 
 {\Large
-\textbf{Your name:} \hrulefill  % Put your name here
-\\
-\\
-\textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
-\textbf{SUID:} \hrulefill  % Put your student ID here
-\\*[2ex] 
+    \textbf{Your name:} \hrulefill  % Put your name here
+    \\
+    \\
+    \textbf{Email:} \underline{\hspace*{7cm}}  % Put your e-mail here
+    \textbf{SUID:} \hrulefill  % Put your student ID here
+    \\*[2ex]
 }
 Discussion Group: \hrulefill   % List your study group here
 \\
 \vfill\vfill
 I acknowledge and accept the Honor Code.\\*[3ex]
 \bigskip
-\textit{(Signed)} 
+\textit{(Signed)}
 \hrulefill   % Replace this line with your initials
 \vfill
 
