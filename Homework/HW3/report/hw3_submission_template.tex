@@ -113,7 +113,7 @@ The sampled probabiltiy plots are as follows:
     \centering
     \includegraphics[width=0.50\textwidth]{pic/q1_con.png}
 \end{figure}
-We can see that both of email and epinions converge to 14\% 46\%. \\\\
+We can see that both of email and epinions converge to 14\% and 46\%. \\\\
 If we neglect the other parts, the probabiltiy will be converged to
 $$
     p = \frac{size_{IN}+size_{SCC}}{size_{IN}+size_{SCC}+size_{OUT}}*\frac{size_{OUT}+size_{SCC}}{size_{IN}+size_{SCC}+size_{OUT}}
@@ -121,10 +121,26 @@ $$
 which is higher than (23\%, 52\% respectively for email and epinions), since other parts still take up a certain number of percentage of the graph.
 
 \newquestion{2.1}
+Yes. We can compute the probabilties for these guys. Just set the restart point of random walk to be the points in
+the corresponding teleport set (uniformly or according to the weights).
+
 
 \newquestion{2.2}
+As long as the choosing of restart points of the random walk is uniform, we can compute personalized pagerank vectors of
+whose teleport set can be added (or minus) by others in $V$.
+
 
 \newquestion{2.3}
+The calculation procedure can be written as:
+\begin{equation*}
+    \begin{aligned}
+        r & = M r                                                     \\
+          & = \beta M r + \frac{1-\beta}{N} \mathrm{1} \mathrm{1}^T r \\
+    \end{aligned}
+\end{equation*}
+
+For every $r_i$ in the left, the right part $\frac{1-\beta}{N} \mathrm{1} \mathrm{1}^T r$ contributes $\frac{1-\beta}{N} \Sigma_i r_i$,
+as $\Sigma_i r_i = 1$, then we have$$r = \beta M r + \frac{1-\beta}{N} \mathrm{1}$$.
 
 \newquestion{3.1}
 
