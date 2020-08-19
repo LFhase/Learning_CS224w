@@ -1,0 +1,16 @@
+.vscode/*
+*DS_Store*
+Homework/HW0/wiki-Vote.txt
+Homework/HW1/CA-GrQc.txt
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.gz
+*.pyc
+readings/*.pdf
+*.whl
+*.pyc
+**/__*__/**
+Homework/HW2/data/*
