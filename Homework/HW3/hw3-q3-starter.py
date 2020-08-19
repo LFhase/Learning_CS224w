@@ -20,7 +20,8 @@ def read_graphs(path1, path2):
     return: Graph 1, Graph 2
     """
     ###########################################################################
-    # TODO: Your code here!
+    Graph1 = snap.LoadEdgeList(snap.PUNGraph, "graph1.txt", 0, 1, ' ')
+    Graph2 = snap.LoadEdgeList(snap.PUNGraph, "graph2.txt", 0, 1, ' ')
     ###########################################################################
     return Graph1, Graph2
 
@@ -42,9 +43,17 @@ def initial_voting_state(Graph):
     """
     voter_prefs = {}
     ###########################################################################
-    # TODO: Your code here!
+    tot_nodes = Graph.GetNodes()
+    for i in range(tot_nodes):
+        md = i % 10
+        if md >= 0 and md <= 3:
+            voter_prefs[i] = 'A'
+        elif md >= 4 and md <= 7:
+            voter_prefs[i] = 'B'
+        else:
+            voter_prefs[i] = 'U'
     ###########################################################################
-    assert(len(voter_prefs) == num_voters)
+    assert (len(voter_prefs) == num_voters)
     return voter_prefs
 
 
@@ -66,7 +75,29 @@ def iterate_voting(Graph, init_conf):
     curr_conf = init_conf.copy()
     curr_alternating_vote = 'A'
     ###########################################################################
-    # TODO: Your code here!
+    for day in range(10):
+        for ni in range(num_voters):
+            if init_conf[ni] != 'U':
+                continue
+            va = 0
+            vb = 0
+            node = Graph.GetNI(ni)
+            tot_nbr = node.GetDeg()
+            for nbi in range(tot_nbr):
+                nbri = node.GetNbrNId(nbi)
+                if curr_conf[nbri] == 'A':
+                    va += 1
+                elif curr_conf[nbri] == 'B':
+                    vb += 1
+            if va > vb:
+                curr_conf[ni] = 'A'
+            elif va < vb:
+                curr_conf[ni] = 'B'
+            else:
+                #print(ni)
+                curr_conf[ni] = curr_alternating_vote
+        curr_alternating_vote = 'B' if curr_alternating_vote == 'A' else 'A'
+
     ###########################################################################
     return curr_conf
 
@@ -92,13 +123,28 @@ def winner(conf):
             If there is a tie, return 'U', 0
     """
     ###########################################################################
-    # TODO: Your code here!
+    va = 0
+    vb = 0
+    for i in conf.keys():
+        vote = conf[i]
+        if vote == 'A':
+            va += 1
+        elif vote == 'B':
+            vb += 1
+        else:
+            raise Exception("No one should be undecided")
+    if va > vb:
+        return 'A', va - vb
+    elif va < vb:
+        return 'B', vb - va
+    else:
+        return 'U', 0
     ###########################################################################
 
 
 def Q1():
-    print ("\nQ1:")
-    Gs = read_graphs('graph1.txt', 'graph2.txt')    # List of graphs
+    print("\nQ1:")
+    Gs = read_graphs('graph1.txt', 'graph2.txt')  # List of graphs
 
     # Simulate election process for both graphs to get final voting preference
     final_confs = [sim_election(G) for G in Gs]
@@ -107,10 +153,9 @@ def Q1():
     # graphs
     res = [winner(conf) for conf in final_confs]
 
-    for i in xrange(2):
-        print "In graph %d, candidate %s wins by %d votes" % (
-                i+1, res[i][0], res[i][1]
-        )
+    for i in range(2):
+        print("In graph %d, candidate %s wins by %d votes" %
+              (i + 1, res[i][0], res[i][1]))
 
 
 def Q2sim(Graph, k):
@@ -126,7 +171,21 @@ def Q2sim(Graph, k):
     Hint: Feel free to use initial_voting_state and iterate_voting functions.
     """
     ###########################################################################
-    # TODO: Your code here!
+    init_stat = initial_voting_state(Graph)
+    for i in range(k // 100):
+        init_stat[i] = 'A'
+    cur_stat = iterate_voting(Graph, init_stat)
+    va = 0
+    vb = 0
+    for i in cur_stat.keys():
+        vote = cur_stat[i]
+        if vote == 'A':
+            va += 1
+        elif vote == 'B':
+            vb += 1
+        else:
+            raise Exception("No one should be undecided")
+    return va - vb
     ###########################################################################
 
 
@@ -140,7 +199,10 @@ def find_min_k(diffs):
     return: The minimum amount needed for A to win
     """
     ###########################################################################
-    # TODO: Your code here!
+    for diff in diffs:
+        if diff[1] >= 0:
+            return diff[0]
+    return 1e9
     ###########################################################################
 
 
@@ -156,7 +218,8 @@ def makePlot(res, title):
     Ks = [[k for k, diff in sub] for sub in res]
     res = [[diff for k, diff in sub] for sub in res]
     ###########################################################################
-    # TODO: Your code here!
+    plt.plot(Ks[0], res[0], label='graph1')
+    plt.plot(Ks[1], res[1], label='graph2')
     ###########################################################################
     plt.plot(Ks[0], [0.0] * len(Ks[0]), ':', color='black')
     plt.xlabel('Amount spent ($)')
@@ -167,7 +230,7 @@ def makePlot(res, title):
 
 
 def Q2():
-    print ("\nQ2:")
+    print("\nQ2:")
     # List of graphs
     Gs = read_graphs('graph1.txt', 'graph2.txt')
 
@@ -181,8 +244,8 @@ def Q2():
     min_k = [find_min_k(diff) for diff in res]
 
     formatString = "On graph {}, the minimum amount you can spend to win is {}"
-    for i in xrange(2):
-        print formatString.format(i + 1, min_k[i])
+    for i in range(2):
+        print(formatString.format(i + 1, min_k[i]))
 
     makePlot(res, 'TV Advertising')
 
@@ -200,12 +263,29 @@ def Q3sim(Graph, k):
     Hint: Feel free to use initial_voting_state and iterate_voting functions.
     """
     ###########################################################################
-    # TODO: Your code here!
+    init_stat = initial_voting_state(Graph)
+    candidates = [(node.GetId(), node.GetDeg()) for node in Graph.Nodes()]
+
+    candidates = sorted(candidates, key=lambda x: (-1*x[1],x[0]))
+    for i in range(k // 1000):
+        init_stat[candidates[i][0]] = 'A'
+    cur_stat = iterate_voting(Graph, init_stat)
+    va = 0
+    vb = 0
+    for i in cur_stat.keys():
+        vote = cur_stat[i]
+        if vote == 'A':
+            va += 1
+        elif vote == 'B':
+            vb += 1
+        else:
+            raise Exception("No one should be undecided")
+    return va - vb
     ###########################################################################
 
 
 def Q3():
-    print ("\nQ3:")
+    print("\nQ3:")
     # List of graphs
     Gs = read_graphs('graph1.txt', 'graph2.txt')
 
@@ -219,19 +299,51 @@ def Q3():
     min_k = [find_min_k(diff) for diff in res]
 
     formatString = "On graph {}, the minimum amount you can spend to win is {}"
-    for i in xrange(2):
-        print formatString.format(i + 1, min_k[i])
+    for i in range(2):
+        print(formatString.format(i + 1, min_k[i]))
 
     makePlot(res, 'Wining and Dining')
 
+
+def getDataPointsToPlot(Graph):
+    """
+    :param - Graph: snap.PUNGraph object representing an undirected graph
+
+    return values:
+    X: list of degrees
+    Y: list of frequencies: Y[i] = fraction of nodes with degree X[i]
+    """
+    ############################################################################
+    # TODO: Your code here!
+    X, Y = [], []
+    max_deg = 0
+    for node in Graph.Nodes():
+        max_deg = max(max_deg, node.GetDeg() + 1)
+    X = list(range(max_deg))
+    Y = [0] * len(X)
+    for node in Graph.Nodes():
+        Y[node.GetDeg()] += 1
+    ############################################################################
+    return X, Y
 
 def Q4():
     """
     Function to plot the distributions of two given graphs on a log-log scale.
     """
-    print ("\nQ4:")
+    print("\nQ4:")
     ###########################################################################
-    # TODO: Your code here!
+    
+    Gs = read_graphs('graph1.txt', 'graph2.txt')
+    x1, y1 = getDataPointsToPlot(Gs[0])
+    x2, y2 = getDataPointsToPlot(Gs[1])
+    plt.loglog(x1, y1, linestyle='dotted', color='r', label='Graph1')
+    plt.loglog(x2, y2, linestyle='dotted', color='b', label='Graph2')
+
+    plt.xlabel('Node Degree (log)')
+    plt.ylabel('Proportion of Nodes with a Given Degree (log)')
+    plt.title('Degree Distribution of 2 Graphs')
+    plt.legend()
+    plt.show()
     ###########################################################################
 
 
