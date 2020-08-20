@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.18)  19 AUG 2020 21:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.18)  20 AUG 2020 20:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -455,59 +455,71 @@ Package pdftex.def Info: pic/q3_dist.png  used on input line 173.
 (pdftex.def)             Requested size: 234.87749pt x 176.15768pt.
  [11
 
- <d:/Learning_CS224w/Homework/HW3/report/pic/q3_dist.png>] [12
+ <d:/Learning_CS224w/Homework/HW3/report/pic/q3_dist.png>]
+<pic/q4_example.PNG, id=77, 2232.34pt x 912.40875pt>
+File: pic/q4_example.PNG Graphic file (type png)
+<use pic/q4_example.PNG>
+Package pdftex.def Info: pic/q4_example.PNG  used on input line 183.
+(pdftex.def)             Requested size: 234.87749pt x 95.99368pt.
+ [12
 
-] [13
+ <d:/Learning_CS224w/Homework/HW3/report/pic/q4_example.PNG>] [13
 
 ] [14
 
-] [15
-
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
+<pic/q4_example2.PNG, id=92, 1575.8875pt x 808.01875pt>
+File: pic/q4_example2.PNG Graphic file (type png)
+<use pic/q4_example2.PNG>
+Package pdftex.def Info: pic/q4_example2.PNG  used on input line 199.
+(pdftex.def)             Requested size: 234.87749pt x 120.42082pt.
+ [15
+
+ <d:/Learning_CS224w/Homework/HW3/report/pic/q4_example2.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--202
+Underfull \hbox (badness 10000) in paragraph at lines 208--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--202
+Underfull \hbox (badness 10000) in paragraph at lines 208--217
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 214.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 229.
 [16
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 214.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 229.
  (d:/Learning_CS224w/Homework/HW3/report/hw3_submission_template.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 214.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 214.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 229.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 229.
 Package rerunfilecheck Info: File `hw3_submission_template.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 214.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 229.
  ) 
 Here is how much of TeX's memory you used:
- 9387 strings out of 480893
- 143951 string characters out of 5903170
+ 9402 strings out of 480893
+ 144239 string characters out of 5903170
  406208 words of memory out of 5000000
- 24821 multiletter control sequences out of 15000+600000
+ 24831 multiletter control sequences out of 15000+600000
  544658 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,11n,47p,738b,315s stack positions out of 5000i,500n,10000p,200000b,80000s
 <d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/softwares/texlive/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on d:/Learning_CS224w/Homework/HW3/report/hw3_submission_template.pdf (16 pages, 288705 bytes).
+Output written on d:/Learning_CS224w/Homework/HW3/report/hw3_submission_template.pdf (16 pages, 854954 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 23 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 150 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
+ 25 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

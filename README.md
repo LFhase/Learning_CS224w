@@ -35,11 +35,13 @@ You can open a new issue or send me an email if you find any mistakes.
     - q1: [q1_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/q1_solution.py)
     - q4: [q4_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/q4)
     - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW2/hw2_solution.pdf)
-- [Ongoing] HW3 ⛰️
+- [Done] HW3 😄
     - problem set: [hw3.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/hw3.pdf)
-    - code: [solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/solution.py)
-    - report: [solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/hw3_solution.pdf)
-- **[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than <strike>***July, 2020***</strike> ***August, 2020***.
+    - q1: [q1_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/q1-starter.py)
+    - q3: [q3_solution.py](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/hw3-q3-starter.py)
+    - report: [hw3_solution.pdf](https://github.com/LFhase/Learning_CS224w/tree/master/Homework/HW3/hw3_solution.pdf)
+- <strike>**[IMPORTANT NOTATION]** Sorry for the slow progress due to larger amount of work for now. Expected finish date will not be later than <strike>***July, 2020***</strike> ***August, 2020***.</strike> 
+😄 Finished on 20 Aug 2020. Welcome to send me an email whenever you find any problems or want to discuss something with me.
 
 ## Tools 🔨
 Welcome to check out `\vscode_settings` for my personally favourable settings of vscode <br> 
