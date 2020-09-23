@@ -2,7 +2,7 @@
 My approach to CS224w [AT] Stanford 2019fall -- Machine Learning with Graphs. 💡
 
 One of many my self-studied courses. You can also check out some of them via belowing links:
-- [CS229 Machine Learning, Stanford](https://github.com/LFhase/CS229)
+- <strike>[CS229 Machine Learning, Stanford](https://github.com/LFhase/CS229)</strike>
 - [CS224n Natural Language Processing with Deep Learning, Stanford](https://github.com/LFhase/Learning_CS224n)
 
 > *It's the open Internet and the great and kind minds that makes a glance at the beautiful knowledge world possible for us navigators.*
