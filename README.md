@@ -9,6 +9,9 @@ One of many my self-studied courses. You can also check out some of them via bel
 
 ***Thousand Thanks** to those kind and cool people!*
 
+***[Disclaimer]** For students who are taking this course, you have to be responsible for yourself and obey the Honor Code not to refer this repo.*
+
+
 ## Introduction 
 This repo records my solutions to assignments and projects of CS224w [AT] Stanford 2019fall. <br>
 
