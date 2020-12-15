@@ -11,19 +11,36 @@ def load_graph_weights(path="hw1-q2.graph"):
 
 
 def extract_basic_feature(node, graph):
+    """
+    Calculate three basic features for input node v
+    1. degree of v
+    2. number of edges in the egonet of node v
+       here we have to iterate every node
+    3. number of edges enter or leaving the egonet of node v
+       here it's a undirected and unweighted graph, so we 
+       can simplely count it with (tot_edges-inner_edges)
 
+    Note that inner_edges and double edges 
+    count every inner edge twice
+    """
+    
     v = [node.GetDeg()]
-    tot_edges = 0
-    nbrs = []
+    tot_edges = v[0]
+    nbrs = set([node.GetId()])
     for i in range(v[0]):
-        nbrs.append(graph.GetNI(node.GetNbrNId(i)))
-        tot_edges += nbrs[-1].GetDeg()
-    inner_edges = 0
+        cur_nbr = graph.GetNI(node.GetNbrNId(i))
+        nbrs.add(cur_nbr.GetId())
+        tot_edges += cur_nbr.GetDeg()
+    
+    inner_edges = v[0]
     for i in range(v[0]):
-        for j in range(i):
-            inner_edges += nbrs[i].IsInNId(nbrs[j].GetId())
-    v.append(inner_edges)
-    v.append(tot_edges - 2 * inner_edges)
+        cur_nbr = graph.GetNI(node.GetNbrNId(i))
+        cur_nbr_deg = cur_nbr.GetDeg()
+        for j in range(cur_nbr_deg):
+            inner_edges += cur_nbr.GetNbrNId(j) in nbrs
+     
+    v.append(inner_edges//2)
+    v.append(tot_edges - inner_edges)
 
     return np.array(v)
 
@@ -59,14 +76,24 @@ def q2_1():
     print("============")
     g = load_graph_weights()
     v_9 = extract_basic_feature(g.GetNI(9), g)
+    # print(v_9)
+    # exit()
     v_mat = cal_initial_feature(g)
 
     cos_sim = [(i, cal_cos_sim(v_9, v)) for i, v in enumerate(v_mat)]
     cos_sim.sort(key=lambda y: y[1], reverse=True)
     print("Feature vector of node 9 is: ", v_9)
     print("Top 5 nodes at most similar to node 9 are: ")
-    for node in cos_sim[1:6]:
+    lst_sim = 1.0
+    cnt_node = 0
+    for node in cos_sim:
+        if lst_sim-node[1]<=1e-6:
+            continue
+        lst_sim = node[1]
         print(node, end=" ")
+        cnt_node += 1
+        if cnt_node >= 5:
+            break
     print("\n============")
 
 
@@ -85,8 +112,16 @@ def q2_2():
     cos_sim.sort(key=lambda y: y[1], reverse=True)
     print("Feature vector of node 9 is: ", v_9)
     print("Top 5 nodes at most similar to node 9 are: ")
-    for node in cos_sim[1:6]:
+    lst_sim = 1.0
+    cnt_node = 0
+    for node in cos_sim:
+        if lst_sim-node[1]<=1e-6:
+            continue
+        lst_sim = node[1]
         print(node, end=" ")
+        cnt_node += 1
+        if cnt_node >= 5:
+            break
     print("\n============")
 
 
@@ -120,7 +155,7 @@ def find_node(lower, upper, data):
         choice = np.random.randint(len(data), size=1)[0]
         if data[choice][1] >= lower and data[choice][1] <= upper:
             break
-    return choice
+    return (choice,data[choice][1])
 
 
 def q2_3():
@@ -138,29 +173,34 @@ def q2_3():
     plt.title("distribution of cosine similarity")
     plt.show()
 
-    subg_1 = get_2_nd_subgraph(find_node(0, 0.05, cos_sim), g)
+    node_1, sim_1 = find_node(0, 0.05, cos_sim)
+    subg_1 = get_2_nd_subgraph(node_1, g)
     subg_1_h = snap.TIntStrH()
-    subg_1_h[subg_1[0]] = "blue"
+    subg_1_h[node_1] = "blue"
     subg_1 = snap.ConvertSubGraph(snap.PUNGraph, g, subg_1)
-    snap.DrawGViz(subg_1, snap.gvlNeato, "subgraph_1.png", "subgraph 1", True, subg_1_h)
+    snap.DrawGViz(subg_1, snap.gvlNeato, "subgraph_1.png", "subgraph 1 sim: {0}".format(round(sim_1,2)), True, subg_1_h)
 
-    subg_2 = get_2_nd_subgraph(find_node(0.4, 0.45, cos_sim), g)
+
+    node_2 = 9#find_node(0.4, 0.45, cos_sim)
+    subg_2 = get_2_nd_subgraph(node_2, g)
     subg_2_h = snap.TIntStrH()
-    subg_2_h[subg_2[0]] = "blue"
+    subg_2_h[node_2] = "blue"
     subg_2 = snap.ConvertSubGraph(snap.PUNGraph, g, subg_2)
-    snap.DrawGViz(subg_2, snap.gvlNeato, "subgraph_2.png", "subgraph 2", True, subg_2_h)
+    snap.DrawGViz(subg_2, snap.gvlNeato, "subgraph_center_9.png", "subgraph_center_9", True, subg_2_h)
 
-    subg_3 = get_2_nd_subgraph(find_node(0.6, 0.65, cos_sim), g)
+    node_3, sim_3 = find_node(0.6, 0.65, cos_sim)
+    subg_3 = get_2_nd_subgraph(node_3, g)
     subg_3_h = snap.TIntStrH()
-    subg_3_h[subg_3[0]] = "blue"
+    subg_3_h[node_3] = "blue"
     subg_3 = snap.ConvertSubGraph(snap.PUNGraph, g, subg_3)
-    snap.DrawGViz(subg_3, snap.gvlNeato, "subgraph_3.png", "subgraph 3", True, subg_3_h)
+    snap.DrawGViz(subg_3, snap.gvlNeato, "subgraph_3.png", "subgraph 3 sim: {0}".format(round(sim_3,2)), True, subg_3_h)
 
-    subg_4 = get_2_nd_subgraph(find_node(0.9, 0.95, cos_sim), g)
+    node_4, sim_4 = find_node(0.9, 0.95, cos_sim)
+    subg_4 = get_2_nd_subgraph(node_4, g)
     subg_4_h = snap.TIntStrH()
-    subg_4_h[subg_4[0]] = "blue"
+    subg_4_h[node_4] = "blue"
     subg_4 = snap.ConvertSubGraph(snap.PUNGraph, g, subg_4)
-    snap.DrawGViz(subg_4, snap.gvlNeato, "subgraph_4.png", "subgraph 4", True, subg_4_h)
+    snap.DrawGViz(subg_4, snap.gvlNeato, "subgraph_4.png", "subgraph 4 sim: {0}".format(round(sim_4,2)), True, subg_4_h)
 
     print("============")
 
