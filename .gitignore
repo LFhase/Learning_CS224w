@@ -13,4 +13,5 @@ readings/*.pdf
 *.whl
 *.pyc
 **/__*__/**
+**/report/**
 Homework/HW2/data/*
