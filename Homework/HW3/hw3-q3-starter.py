@@ -96,7 +96,8 @@ def iterate_voting(Graph, init_conf):
             else:
                 #print(ni)
                 curr_conf[ni] = curr_alternating_vote
-        curr_alternating_vote = 'B' if curr_alternating_vote == 'A' else 'A'
+                # change the value after being used for assignment
+                curr_alternating_vote = 'B' if curr_alternating_vote == 'A' else 'A'
 
     ###########################################################################
     return curr_conf
